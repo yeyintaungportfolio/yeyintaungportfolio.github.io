@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ye Yint Aung — Architecture</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0d0d0b;
+      --surface: #141410;
+      --border: #2a2a24;
+      --text: #e8e4d8;
+      --muted: #7a7668;
+      --accent: #c8b87a;
+      --accent2: #8a9e8c;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Mono', monospace;
+      font-weight: 300;
+      font-size: 13px;
+      line-height: 1.7;
+      cursor: crosshair;
+    }
+
+    /* ── GRAIN OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0.6;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 3rem;
+      border-bottom: 1px solid var(--border);
+      background: rgba(13,13,11,0.85);
+      backdrop-filter: blur(12px);
+    }
+
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+    }
+
+    .nav-links { display: flex; gap: 2.5rem; }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.12em;
+      font-size: 11px;
+      text-transform: uppercase;
+      transition: color 0.3s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-bottom: 1px solid var(--border);
+      padding-top: 80px;
+    }
+
+    .hero-left {
+      padding: 8rem 3rem 4rem;
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .hero-tag {
+      font-size: 10px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .hero-tag::before {
+      content: '';
+      display: block;
+      width: 2rem;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.5rem, 7vw, 6rem);
+      font-weight: 300;
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+      color: var(--text);
+      margin-bottom: 2rem;
+    }
+
+    h1 em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .hero-desc {
+      max-width: 38ch;
+      color: var(--muted);
+      line-height: 1.9;
+      margin-bottom: 3rem;
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 1rem;
+      color: var(--text);
+      text-decoration: none;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      border: 1px solid var(--border);
+      padding: 1rem 2rem;
+      transition: all 0.3s;
+    }
+    .hero-cta:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(200,184,122,0.04);
+    }
+    .hero-cta::after { content: '→'; transition: transform 0.3s; }
+    .hero-cta:hover::after { transform: translateX(4px); }
+
+    .hero-right {
+      padding: 8rem 3rem 4rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      margin-bottom: 4rem;
+    }
+
+    .stat {
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+      transition: border-color 0.3s;
+    }
+    .stat:hover { border-color: var(--accent); }
+
+    .stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.5rem;
+      font-weight: 300;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .hero-location {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+    }
+    .hero-location::before {
+      content: '◎';
+      color: var(--accent2);
+    }
+
+    /* ── SECTION BASE ── */
+    section {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      padding: 2rem 3rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section-num {
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      color: var(--accent);
+    }
+
+    h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      font-weight: 300;
+      letter-spacing: 0.05em;
+    }
+
+    /* ── PROJECTS ── */
+    #projects .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .project-card {
+      border-right: 1px solid var(--border);
+      padding: 2.5rem;
+      transition: background 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .project-card:last-child { border-right: none; }
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), transparent);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s;
+    }
+    .project-card:hover::before { transform: scaleX(1); }
+    .project-card:hover { background: rgba(200,184,122,0.02); }
+
+    .project-num {
+      font-size: 10px;
+      color: var(--accent);
+      letter-spacing: 0.2em;
+      margin-bottom: 1.5rem;
+    }
+
+    .project-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem;
+      font-weight: 300;
+      font-style: italic;
+      margin-bottom: 0.75rem;
+      color: var(--text);
+    }
+
+    .project-desc {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.8;
+    }
+
+    .project-tag {
+      display: inline-block;
+      margin-top: 1.5rem;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      border: 1px solid var(--accent2);
+      padding: 0.25rem 0.75rem;
+      opacity: 0.7;
+    }
+
+    /* ── SKILLS ── */
+    #skills .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .skill-group {
+      border-right: 1px solid var(--border);
+      padding: 2.5rem;
+    }
+    .skill-group:last-child { border-right: none; }
+
+    .skill-group-title {
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .skill-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .skill-list li {
+      color: var(--muted);
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      transition: color 0.2s;
+    }
+    .skill-list li:hover { color: var(--text); }
+    .skill-list li::before {
+      content: '—';
+      color: var(--border);
+      font-size: 10px;
+    }
+
+    /* ── EXPERIENCE ── */
+    #experience .exp-list {
+      padding: 2.5rem 3rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .exp-item {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 3rem;
+      padding: 2rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .exp-item:last-child { border-bottom: none; }
+
+    .exp-date {
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      padding-top: 0.25rem;
+    }
+
+    .exp-role {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      font-weight: 400;
+      margin-bottom: 0.25rem;
+    }
+
+    .exp-company {
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+    }
+
+    .exp-bullets {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    .exp-bullets li {
+      color: var(--muted);
+      font-size: 12px;
+      padding-left: 1rem;
+      position: relative;
+    }
+    .exp-bullets li::before {
+      content: '·';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+    }
+
+    /* ── EDUCATION & AWARDS ── */
+    #education .edu-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .edu-block {
+      border-right: 1px solid var(--border);
+      padding: 2.5rem;
+    }
+    .edu-block:last-child { border-right: none; }
+
+    .edu-school {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .edu-degree {
+      color: var(--accent);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .edu-year { color: var(--muted); font-size: 11px; }
+
+    .award-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .award-item:last-child { border-bottom: none; }
+
+    .award-icon { color: var(--accent); font-size: 16px; }
+
+    .award-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      margin-bottom: 0.2rem;
+    }
+    .award-detail { color: var(--muted); font-size: 11px; }
+
+    /* ── CONTACT ── */
+    #contact {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .contact-left {
+      padding: 4rem 3rem;
+      border-right: 1px solid var(--border);
+    }
+
+    .contact-right {
+      padding: 4rem 3rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .contact-heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      font-weight: 300;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+    }
+
+    .contact-heading em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .contact-sub { color: var(--muted); max-width: 40ch; line-height: 1.9; }
+
+    .contact-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 1.5rem;
+      border: 1px solid var(--border);
+      color: var(--text);
+      text-decoration: none;
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      transition: all 0.3s;
+    }
+    .contact-link:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(200,184,122,0.03);
+    }
+    .contact-link span { color: var(--muted); font-size: 10px; }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 2rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-left > * {
+      animation: fadeUp 0.8s ease both;
+    }
+    .hero-left > *:nth-child(1) { animation-delay: 0.1s; }
+    .hero-left > *:nth-child(2) { animation-delay: 0.25s; }
+    .hero-left > *:nth-child(3) { animation-delay: 0.4s; }
+    .hero-left > *:nth-child(4) { animation-delay: 0.55s; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 1.25rem 1.5rem; }
+      .nav-links { gap: 1.5rem; }
+      #hero { grid-template-columns: 1fr; }
+      .hero-left { padding: 6rem 1.5rem 2rem; border-right: none; border-bottom: 1px solid var(--border); }
+      .hero-right { padding: 2rem 1.5rem 3rem; }
+      #projects .projects-grid { grid-template-columns: 1fr; }
+      .project-card { border-right: none; border-bottom: 1px solid var(--border); }
+      #skills .skills-grid { grid-template-columns: 1fr; }
+      .skill-group { border-right: none; border-bottom: 1px solid var(--border); }
+      .exp-item { grid-template-columns: 1fr; gap: 0.5rem; }
+      #education .edu-grid { grid-template-columns: 1fr; }
+      .edu-block { border-right: none; border-bottom: 1px solid var(--border); }
+      #contact { grid-template-columns: 1fr; }
+      .contact-left { border-right: none; border-bottom: 1px solid var(--border); }
+      .section-header { padding: 1.5rem; }
+      .exp-list { padding: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">YYA</div>
+  <div class="nav-links">
+    <a href="#projects">Projects</a>
+    <a href="#skills">Skills</a>
+    <a href="#experience">Experience</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-left">
+    <div class="hero-tag">Architecture Student · San Gabriel, CA</div>
+    <h1>Ye Yint<br/><em>Aung</em></h1>
+    <p class="hero-desc">
+      Bachelor of Architecture candidate at Woodbury University, exploring the intersection of design computation, fabrication, and spatial storytelling.
+    </p>
+    <a href="#projects" class="hero-cta">View Selected Work</a>
+  </div>
+  <div class="hero-right">
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num">5</div>
+        <div class="stat-label">Selected Projects</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">3×</div>
+        <div class="stat-label">Dean's List</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">2027</div>
+        <div class="stat-label">B.Arch Expected</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">3</div>
+        <div class="stat-label">Languages</div>
+      </div>
+    </div>
+    <div class="hero-location">Woodbury University · Minor in Design Computation</div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-header">
+    <span class="section-num">01</span>
+    <h2>Selected Projects</h2>
+  </div>
+  <div class="projects-grid">
+    <div class="project-card">
+      <div class="project-num">P.01</div>
+      <div class="project-name">Modular Retreat</div>
+      <p class="project-desc">Tilt-up pavilion cast from perlite concrete, situated in the high desert landscape of Lone Pine, CA. Explores modularity and material honesty.</p>
+      <span class="project-tag">Fabrication</span>
+    </div>
+    <div class="project-card">
+      <div class="project-num">P.02</div>
+      <div class="project-name">Emergence</div>
+      <p class="project-desc">Adaptive reuse proposal for the historic E. Clem Wilson Building in Los Angeles. Reimagining existing structures for contemporary use.</p>
+      <span class="project-tag">Adaptive Reuse</span>
+    </div>
+    <div class="project-card">
+      <div class="project-num">P.03</div>
+      <div class="project-name">Submergence</div>
+      <p class="project-desc">A public pool complex rooted in the cultural fabric of Chinatown, Los Angeles. Architecture as community infrastructure.</p>
+      <span class="project-tag">Public Space</span>
+    </div>
+    <div class="project-card">
+      <div class="project-num">P.04</div>
+      <div class="project-name">After Image</div>
+      <p class="project-desc">Student lounge design inspired by the glitch sequences of Spider-Verse — where digital fragmentation becomes spatial language.</p>
+      <span class="project-tag">Interior</span>
+    </div>
+    <div class="project-card">
+      <div class="project-num">P.05</div>
+      <div class="project-name">Three Contacts</div>
+      <p class="project-desc">A minimalist steel rod bookstand — an exercise in structural economy, where three points of contact create elegant stability.</p>
+      <span class="project-tag">Object Design</span>
+    </div>
+    <div class="project-card" style="background: rgba(200,184,122,0.02);">
+      <div class="project-num" style="opacity:0.3">···</div>
+      <div class="project-name" style="color: var(--muted); font-style:normal; font-size:1rem; margin-top:1rem;">More Coming Soon</div>
+      <p class="project-desc" style="margin-top:0.5rem;">New work in progress. Check back for updates.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-header">
+    <span class="section-num">02</span>
+    <h2>Skills &amp; Software</h2>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-group">
+      <div class="skill-group-title">Digital Tools</div>
+      <ul class="skill-list">
+        <li>Rhino 3D</li>
+        <li>Grasshopper</li>
+        <li>Revit</li>
+        <li>D5 Render</li>
+        <li>Python (processing.py, p5.js)</li>
+        <li>Adobe Illustrator</li>
+        <li>Adobe Photoshop</li>
+      </ul>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">Fabrication &amp; Making</div>
+      <ul class="skill-list">
+        <li>3D Printing</li>
+        <li>Casting</li>
+        <li>Laser Cutting</li>
+        <li>Model Making</li>
+        <li>Woodworking</li>
+        <li>Metalworking</li>
+      </ul>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">Languages</div>
+      <ul class="skill-list">
+        <li>English — Fluent</li>
+        <li>Myanmar — Fluent</li>
+        <li>Chinese — Basic</li>
+      </ul>
+      <br/>
+      <div class="skill-group-title">Other</div>
+      <ul class="skill-list">
+        <li>Microsoft Office</li>
+        <li>Wheel-thrown Ceramics</li>
+        <li>Construction Management</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-header">
+    <span class="section-num">03</span>
+    <h2>Work Experience</h2>
+  </div>
+  <div class="exp-list">
+    <div class="exp-item">
+      <div class="exp-date">Jul 2024 – Sep 2024</div>
+      <div>
+        <div class="exp-role">Construction Project Management Intern</div>
+        <div class="exp-company">Chinatown Service Center</div>
+        <ul class="exp-bullets">
+          <li>Conducted site inspections and photo/video documentation for quality control</li>
+          <li>Prepared documentation for regulatory compliance and inspections</li>
+          <li>Managed lien waivers and verified vendor payments</li>
+          <li>Sourced quotes for furniture, equipment, and commercial kitchen systems</li>
+          <li>Coordinated security system proposals including access control integration</li>
+        </ul>
+      </div>
+    </div>
+    <div class="exp-item">
+      <div class="exp-date">Jan 2024</div>
+      <div>
+        <div class="exp-role">Roofing Project Coordinator</div>
+        <div class="exp-company">Independent Project Management</div>
+        <ul class="exp-bullets">
+          <li>Managed full residential re-roofing project from permits through final inspection</li>
+          <li>Coordinated with city inspectors to ensure building code compliance</li>
+          <li>Handled permit fees, material procurement, and contract agreements</li>
+          <li>Assessed site conditions, selected materials, and negotiated with suppliers</li>
+        </ul>
+      </div>
+    </div>
+    <div class="exp-item">
+      <div class="exp-date">Jun – Aug 2023</div>
+      <div>
+        <div class="exp-role">Construction Laborer</div>
+        <div class="exp-company">Independent Contractor</div>
+        <ul class="exp-bullets">
+          <li>Installed structural beams and managed demolition under safety protocols</li>
+          <li>Completed finish work and coordinated with contractors on project timelines</li>
+          <li>Operated construction equipment and power tools across building tasks</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION & AWARDS -->
+<section id="education">
+  <div class="section-header">
+    <span class="section-num">04</span>
+    <h2>Education &amp; Recognition</h2>
+  </div>
+  <div class="edu-grid">
+    <div class="edu-block">
+      <div class="edu-school">Woodbury University</div>
+      <div class="edu-degree">Bachelor of Architecture · Minor in Design Computation</div>
+      <div class="edu-year">2023 – 2027</div>
+      <br/>
+      <div class="edu-school" style="font-size:1.1rem;">Pasadena City College</div>
+      <div class="edu-degree">A.A. Engineering & Technology · A.A. Humanities · A.A. Natural Sciences</div>
+      <div class="edu-year">2023</div>
+    </div>
+    <div class="edu-block">
+      <div class="award-item">
+        <div class="award-icon">◈</div>
+        <div>
+          <div class="award-name">Dean's List</div>
+          <div class="award-detail">2023 · 2024 · 2025</div>
+        </div>
+      </div>
+      <div class="award-item">
+        <div class="award-icon">◈</div>
+        <div>
+          <div class="award-name">Tau Sigma Delta</div>
+          <div class="award-detail">National Architecture Honor Society</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-left">
+    <h2 class="contact-heading">Let's<br/><em>Connect</em></h2>
+    <p class="contact-sub">Open to internships, collaborations, and conversations about architecture, computation, and making.</p>
+  </div>
+  <div class="contact-right">
+    <a href="mailto:aungywoodbury@gmail.com" class="contact-link">
+      aungywoodbury@gmail.com
+      <span>Email →</span>
+    </a>
+    <a href="tel:6266143438" class="contact-link">
+      (626) 614-3438
+      <span>Call →</span>
+    </a>
+    <div class="contact-link" style="cursor:default;">
+      San Gabriel, CA
+      <span>Location</span>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span>© 2025 Ye Yint Aung</span>
+  <span>Architecture · Design Computation · Making</span>
+</footer>
+
+</body>
+</html>
