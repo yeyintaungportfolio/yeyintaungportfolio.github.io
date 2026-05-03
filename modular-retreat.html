@@ -60,9 +60,13 @@
       color: var(--muted);
     }
 
-    /* ── NAV — static, slim, no overlay ── */
+    /* ── NAV — fixed at top, always visible ── */
     nav.site-nav {
-      position: static !important;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 200;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -91,6 +95,9 @@
     }
     nav.site-nav .nav-all-projects:hover { color: var(--accent); }
 
+    /* offset body so fixed nav doesn't cover content */
+    body { padding-top: 42px; }
+
     /* ── PAGE GRID — continuous 2-col layout ── */
     .page-grid {
       display: grid;
@@ -112,7 +119,7 @@
     .hero-cell-top { display: flex; flex-direction: column; gap: 1rem; }
     .hero-cell-meta { display: flex; flex-direction: column; gap: 0; }
 
-    /* Image cells — square */
+    /* ── IMAGE CELLS — zoom only on hover, no text, no overlay ── */
     .img-cell {
       aspect-ratio: 1 / 1;
       overflow: hidden;
@@ -126,26 +133,13 @@
       height: 100%;
       object-fit: cover;
       display: block;
-      transition: transform 0.5s ease;
+      transition: transform 0.45s ease;
     }
-    .img-cell:hover img { transform: scale(1.04); }
-    .img-cell-overlay {
-      position: absolute;
-      inset: 0;
-      background: rgba(13,13,11,0.82);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-      font-size: 10px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--accent);
+    .img-cell:hover img {
+      transform: scale(1.06);
     }
-    .img-cell:hover .img-cell-overlay { opacity: 1; }
 
-    /* ── PROJECT NAV — both prev and next ── */
+    /* ── PROJECT NAV — bottom of page ── */
     .project-nav {
       display: flex;
       justify-content: space-between;
@@ -186,7 +180,7 @@
   <div class="lightbox-counter" id="lightbox-counter"></div>
 </div>
 
-<!-- ══ NAV ══ -->
+<!-- ══ NAV — fixed top, always visible ══ -->
 <nav class="site-nav">
   <a href="index.html" class="nav-logo">YYA</a>
   <a href="projects.html" class="nav-all-projects">All Projects</a>
@@ -226,45 +220,35 @@
 
   <div class="img-cell" data-index="0">
     <img src="images/modular-retreat-1.png" alt="Assembled pavilion, Lone Pine"/>
-    <div class="img-cell-overlay">Expand →</div>
   </div>
 
-  <!-- Row 2: Img 2 + Img 3 -->
+  <!-- Row 2 -->
   <div class="img-cell" data-index="1">
     <img src="images/modular-retreat-2.png" alt="Form study 01"/>
-    <div class="img-cell-overlay">Expand →</div>
   </div>
-
   <div class="img-cell" data-index="2">
     <img src="images/modular-retreat-3.png" alt="Form study 02"/>
-    <div class="img-cell-overlay">Expand →</div>
   </div>
 
-  <!-- Row 3: Img 4 + Img 5 -->
+  <!-- Row 3 -->
   <div class="img-cell" data-index="3">
     <img src="images/modular-retreat-4.png" alt="Casting artifact 01"/>
-    <div class="img-cell-overlay">Expand →</div>
   </div>
-
   <div class="img-cell" data-index="4">
     <img src="images/modular-retreat-5.png" alt="Casting artifact 02"/>
-    <div class="img-cell-overlay">Expand →</div>
   </div>
 
-  <!-- Row 4: Img 6 + Img 7 -->
+  <!-- Row 4 -->
   <div class="img-cell" data-index="5">
     <img src="images/modular-retreat-6.png" alt="Casting artifact 03"/>
-    <div class="img-cell-overlay">Expand →</div>
   </div>
-
   <div class="img-cell" data-index="6">
     <img src="images/modular-retreat-7.png" alt="Casting artifact 04"/>
-    <div class="img-cell-overlay">Expand →</div>
   </div>
 
 </div>
 
-<!-- ══ PROJECT NAV ══ -->
+<!-- ══ PROJECT NAV — at the very bottom ══ -->
 <nav class="project-nav">
   <a href="clampy-finger-joint.html" class="project-nav-item">
     <div class="project-nav-label">← Previous</div>
@@ -285,10 +269,10 @@
 <!-- ══ LIGHTBOX SCRIPT ══ -->
 <script>
   (() => {
-    const overlay   = document.getElementById('lightbox');
-    const imgEl     = document.getElementById('lightbox-img');
-    const closeBtn  = document.getElementById('lightbox-close');
-    const counter   = document.getElementById('lightbox-counter');
+    const overlay  = document.getElementById('lightbox');
+    const imgEl    = document.getElementById('lightbox-img');
+    const closeBtn = document.getElementById('lightbox-close');
+    const counter  = document.getElementById('lightbox-counter');
 
     const items = Array.from(document.querySelectorAll('.img-cell img'));
     let current = 0;
@@ -337,9 +321,9 @@
 
     document.addEventListener('keydown', (e) => {
       if (!overlay.classList.contains('open')) return;
-      if (e.key === 'Escape')      close();
-      if (e.key === 'ArrowRight')  navigate(1);
-      if (e.key === 'ArrowLeft')   navigate(-1);
+      if (e.key === 'Escape')     close();
+      if (e.key === 'ArrowRight') navigate(1);
+      if (e.key === 'ArrowLeft')  navigate(-1);
     });
 
     imgEl.style.transition = 'opacity 0.15s ease';
