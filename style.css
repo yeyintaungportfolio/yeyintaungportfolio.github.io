@@ -82,7 +82,7 @@ nav {
 .nav-back::before { content: '←'; }
 
 /* ── SECTION WRAPPER ── */
-section { border-bottom: 1px solid var(--border); scroll-margin-top: 72px; }
+section { border-bottom: 1px solid var(--border); scroll-margin-top: 100px; }
 
 .section-header {
   display: flex;
