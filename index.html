@@ -19,6 +19,9 @@
     <a href="#skills">Skills</a>
     <a href="#contact">Contact</a>
   </div>
+  <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
 <!-- ══ 01 · INTRODUCTION ══ -->
@@ -185,18 +188,18 @@
     </a>
 
     <!-- See All Projects -->
-<a href="projects.html" class="project-card see-all-card">
-  <div class="card-image" style="background: var(--bg);">
-    <div class="placeholder">
-      <span style="font-size:2rem; color: var(--accent);">→</span>
-      <span style="color: var(--accent); letter-spacing: 0.2em;">See All Projects</span>
-    </div>
-  </div>
-  <div class="card-body">
-    <div class="card-name">All Work</div>
-    <div class="card-num">→</div>
-  </div>
-</a>
+    <a href="projects.html" class="project-card see-all-card">
+      <div class="card-image" style="background: var(--bg);">
+        <div class="placeholder">
+          <span style="font-size:2rem; color: var(--accent);">→</span>
+          <span style="color: var(--accent); letter-spacing: 0.2em;">See All Projects</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-name">All Work</div>
+        <div class="card-num">→</div>
+      </div>
+    </a>
 
   </div>
 </section>
@@ -303,6 +306,17 @@
   <span>© 2026 Ye Yint Aung</span>
   <span>Architecture · Design Computation · Making</span>
 </footer>
+
+<script>
+  const hamburger = document.getElementById('nav-hamburger');
+  const navLinks = document.querySelector('.nav-links');
+  hamburger.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+  });
+  navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => navLinks.classList.remove('open'));
+  });
+</script>
 
 </body>
 </html>
