@@ -60,8 +60,36 @@
       color: var(--muted);
     }
 
-    /* ── THINNER NAV ── */
-    nav { padding: 0.75rem 3rem; }
+    /* ── NAV — static, slim, no overlay ── */
+    nav.site-nav {
+      position: static !important;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.6rem 2rem;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg, #0d0d0b);
+    }
+    nav.site-nav .nav-logo {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      text-decoration: none;
+    }
+    nav.site-nav .nav-all-projects {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      font-weight: 300;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    nav.site-nav .nav-all-projects:hover { color: var(--accent); }
 
     /* ── PAGE GRID — continuous 2-col layout ── */
     .page-grid {
@@ -72,7 +100,7 @@
       padding-top: 0;
     }
 
-    /* Hero cell — stretches to match Img 1 height */
+    /* Hero cell */
     .hero-cell {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -117,6 +145,36 @@
     }
     .img-cell:hover .img-cell-overlay { opacity: 1; }
 
+    /* ── PROJECT NAV — both prev and next ── */
+    .project-nav {
+      display: flex;
+      justify-content: space-between;
+      border-top: 1px solid var(--border);
+    }
+    .project-nav-item {
+      padding: 1.75rem 2rem;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      transition: background 0.2s;
+    }
+    .project-nav-item:hover { background: var(--surface); }
+    .project-nav-item:last-child { text-align: right; }
+    .project-nav-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .project-nav-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 300;
+      color: var(--accent);
+    }
+
   </style>
 </head>
 <body>
@@ -129,11 +187,9 @@
 </div>
 
 <!-- ══ NAV ══ -->
-<nav>
+<nav class="site-nav">
   <a href="index.html" class="nav-logo">YYA</a>
-  <div class="nav-links">
-    <a href="projects.html" class="nav-back">All Projects</a>
-  </div>
+  <a href="projects.html" class="nav-all-projects">All Projects</a>
 </nav>
 
 <!-- ══ PAGE GRID ══ -->
@@ -195,13 +251,24 @@
     <div class="img-cell-overlay">Expand →</div>
   </div>
 
+  <!-- Row 4: Img 6 + Img 7 -->
+  <div class="img-cell" data-index="5">
+    <img src="images/modular-retreat-6.png" alt="Casting artifact 03"/>
+    <div class="img-cell-overlay">Expand →</div>
+  </div>
+
+  <div class="img-cell" data-index="6">
+    <img src="images/modular-retreat-7.png" alt="Casting artifact 04"/>
+    <div class="img-cell-overlay">Expand →</div>
+  </div>
+
 </div>
 
 <!-- ══ PROJECT NAV ══ -->
 <nav class="project-nav">
-  <a href="projects.html" class="project-nav-item">
-    <div class="project-nav-label">← All Projects</div>
-    <div class="project-nav-title">Back to Work</div>
+  <a href="clampy-finger-joint.html" class="project-nav-item">
+    <div class="project-nav-label">← Previous</div>
+    <div class="project-nav-title">Clampy Finger Joint</div>
   </a>
   <a href="emergence.html" class="project-nav-item">
     <div class="project-nav-label">Next →</div>
@@ -259,7 +326,6 @@
 
     overlay.addEventListener('click', (e) => {
       if (e.target === overlay || e.target === imgEl) {
-        // Click left half = prev, right half = next
         const half = window.innerWidth / 2;
         if (e.target === imgEl) {
           navigate(e.clientX < half ? -1 : 1);
@@ -276,7 +342,6 @@
       if (e.key === 'ArrowLeft')   navigate(-1);
     });
 
-    // Smooth opacity for image swaps
     imgEl.style.transition = 'opacity 0.15s ease';
   })();
 </script>
