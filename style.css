@@ -360,6 +360,16 @@ h1 em { font-style: italic; color: var(--accent); }
   color: var(--accent);
   letter-spacing: 0.15em;
 }
+.see-all-card .card-image {
+  border: 1px dashed var(--border);
+  transition: border-color 0.3s;
+}
+.see-all-card:hover .card-image {
+  border-color: var(--accent);
+}
+.see-all-card:hover .placeholder span {
+  color: var(--accent) !important;
+}
 
 /* ── EXPERIENCE ── */
 .exp-list {
