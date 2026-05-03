@@ -509,8 +509,8 @@ footer {
   overflow: hidden;
   position: relative;
 }
-.gallery-img.tall  { aspect-ratio: 4/3; }
-.gallery-img.wide  { aspect-ratio: 16/9; }
+.gallery-img.tall  { aspect-ratio: 1/1; }
+.gallery-img.wide  { aspect-ratio: 1/1; }
 .gallery-img.square { aspect-ratio: 1/1; }
 
 .gallery-img img {
