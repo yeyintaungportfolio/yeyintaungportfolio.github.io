@@ -264,6 +264,7 @@ h1 em { font-style: italic; color: var(--accent); }
   position: relative;
   overflow: hidden;
   background: var(--surface);
+  min-width: 0;
 }
 
 /* Square image */
