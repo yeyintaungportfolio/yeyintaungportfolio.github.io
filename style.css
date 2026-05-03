@@ -81,8 +81,26 @@ nav {
 .nav-back:hover { color: var(--accent); }
 .nav-back::before { content: '←'; }
 
+/* ── HAMBURGER ── */
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem;
+}
+.nav-hamburger span {
+  display: block;
+  width: 22px;
+  height: 1px;
+  background: var(--accent);
+  transition: all 0.3s;
+}
+
 /* ── SECTION WRAPPER ── */
-section { border-bottom: 1px solid var(--border); scroll-margin-top: 73px; }
+section { border-bottom: 1px solid var(--border); scroll-margin-top: 72px; }
 
 .section-header {
   display: flex;
@@ -627,7 +645,23 @@ footer {
 /* ── RESPONSIVE ── */
 @media (max-width: 768px) {
   nav { padding: 1.25rem 1.5rem; }
-  .nav-links { gap: 1.5rem; }
+
+  .nav-hamburger { display: flex; }
+
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    background: rgba(13,13,11,0.97);
+    border-bottom: 1px solid var(--border);
+    padding: 1.5rem 2rem;
+    gap: 1.5rem;
+  }
+  .nav-links.open { display: flex; }
+
   #hero { grid-template-columns: 1fr; }
   .hero-left { padding: 6rem 1.5rem 2rem; border-right: none; border-bottom: 1px solid var(--border); }
   .hero-right { padding: 2rem 1.5rem 3rem; }
