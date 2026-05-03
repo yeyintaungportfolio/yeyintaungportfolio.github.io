@@ -60,41 +60,6 @@
       color: var(--muted);
     }
 
-    /* ── NAV — fixed at top, always visible ── */
-    nav.site-nav {
-      position: fixed !important;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 200;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1.5rem 3rem;
-      border-bottom: 1px solid var(--border);
-      background: var(--bg, #0d0d0b);
-    }
-    nav.site-nav .nav-logo {
-      font-family: 'DM Mono', monospace;
-      font-size: 11px;
-      font-weight: 400;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--accent);
-      text-decoration: none;
-    }
-    nav.site-nav .nav-all-projects {
-      font-family: 'DM Mono', monospace;
-      font-size: 10px;
-      font-weight: 300;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--muted);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-    nav.site-nav .nav-all-projects:hover { color: var(--accent); }
-
     /* offset body so fixed nav doesn't cover content */
     body { padding-top: 42px; }
 
@@ -185,11 +150,12 @@
 </div>
 
 <!-- ══ NAV — fixed top, always visible ══ -->
-<nav class="site-nav">
+<nav>
   <a href="index.html" class="nav-logo">YYA</a>
-  <a href="projects.html" class="nav-all-projects">All Projects</a>
+  <div class="nav-links">
+    <a href="projects.html">All Projects</a>
+  </div>
 </nav>
-
 <!-- ══ PAGE GRID ══ -->
 <div class="page-grid">
 
