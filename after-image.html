@@ -6,137 +6,300 @@
   <title>After Image — Ye Yint Aung</title>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="style.css"/>
+  <style>
+
+    /* ── LIGHTBOX ── */
+    .lightbox-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: rgba(13, 13, 11, 0.96);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      cursor: zoom-out;
+    }
+    .lightbox-overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+    .lightbox-overlay img {
+      max-width: 90vw;
+      max-height: 90vh;
+      object-fit: contain;
+      display: block;
+      transform: scale(0.96);
+      transition: transform 0.3s ease;
+    }
+    .lightbox-overlay.open img {
+      transform: scale(1);
+    }
+    .lightbox-close {
+      position: fixed;
+      top: 2rem;
+      right: 2.5rem;
+      font-size: 10px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--muted);
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .lightbox-close:hover { color: var(--accent); }
+    .lightbox-counter {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+    }
+
+    /* offset body so fixed nav doesn't cover content */
+    body { padding-top: 42px; }
+
+    /* ── PAGE GRID ── */
+    .page-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      padding: 2px;
+      padding-top: 0;
+    }
+
+    /* Hero cell — always square, matching .img-cell */
+    .hero-cell {
+      aspect-ratio: 1 / 1;
+      overflow-y: auto;
+      box-sizing: border-box;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 3rem 2.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .hero-cell-top { display: flex; flex-direction: column; gap: 1rem; }
+    .hero-cell-meta { display: flex; flex-direction: column; gap: 0; }
+
+    /* ── IMAGE CELLS — zoom only on hover, no overlay ── */
+    .img-cell {
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      position: relative;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      cursor: zoom-in;
+    }
+    @media (max-width: 768px) {
+      .page-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .img-cell img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.45s ease;
+    }
+    .img-cell:hover img {
+      transform: scale(1.06);
+    }
+
+    /* ── PROJECT NAV — div, not nav, so global nav CSS can't touch it ── */
+    .project-nav-row {
+      position: static !important;
+      display: flex !important;
+      justify-content: space-between;
+      border-top: 1px solid var(--border);
+      background: transparent;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .project-nav-item {
+      padding: 1.75rem 2rem;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      transition: background 0.2s;
+    }
+    .project-nav-item:hover { background: var(--surface); }
+    .project-nav-item.right { text-align: right; }
+    .project-nav-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .project-nav-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 300;
+      color: var(--accent);
+    }
+
+  </style>
 </head>
 <body>
 
+<!-- ══ LIGHTBOX OVERLAY ══ -->
+<div class="lightbox-overlay" id="lightbox" role="dialog" aria-modal="true">
+  <span class="lightbox-close" id="lightbox-close">Close ×</span>
+  <img id="lightbox-img" src="" alt=""/>
+  <div class="lightbox-counter" id="lightbox-counter"></div>
+</div>
+
+<!-- ══ NAV — fixed top, always visible ══ -->
 <nav>
   <a href="index.html" class="nav-logo">YYA</a>
   <div class="nav-links">
-    <a href="index.html#projects" class="nav-back">All Projects</a>
+    <a href="projects.html">All Projects</a>
   </div>
 </nav>
 
-<div class="project-hero">
-  <div class="project-hero-left">
-    <div class="project-page-num">P.04</div>
-    <div class="project-page-title">After Image</div>
-    <p class="project-page-desc">
-      A student lounge design inspired by the glitch sequences of Spider-Verse. Digital fragmentation becomes spatial language — layered planes, chromatic aberration, and temporal displacement translated into architecture.
-    </p>
+<!-- ══ PAGE GRID ══ -->
+<div class="page-grid">
+
+  <!-- Row 1: Hero info (left) + Img 1 (right) -->
+  <div class="hero-cell">
+    <div class="hero-cell-top">
+      <div class="project-page-num">P.04</div>
+      <h1 class="project-page-title">After<br/>Image</h1>
+      <p class="project-page-desc">
+        Located in the main quad at Woodbury University in Burbank, this project introduces a student lounge within one of the campus's most active circulation zones. Positioned along a primary pedestrian path, it creates a transitional space for gathering, pause, and informal performance. Using footage from Into the Spider-Verse, moments of movement were tracked and abstracted into geometric traces, then extruded and iteratively assembled into a spatial system. Influenced by the film's glitch sequences, the final form consolidates layered motion into a faceted geometry that reads as a frozen moment of temporal distortion.
+      </p>
+    </div>
+    <div class="hero-cell-meta">
+      <div class="project-meta-item">
+        <div class="project-meta-label">Type</div>
+        <div class="project-meta-value">Student Lounge Pavilion</div>
+      </div>
+      <div class="project-meta-item">
+        <div class="project-meta-label">Location</div>
+        <div class="project-meta-value">Woodbury University, Burbank, CA</div>
+      </div>
+      <div class="project-meta-item">
+        <div class="project-meta-label">Program</div>
+        <div class="project-meta-value">Gathering · Informal Performance</div>
+      </div>
+      <div class="project-meta-item">
+        <div class="project-meta-label">Tools</div>
+        <div class="project-meta-value">Rhino 3D · Illustrator · Physical Model</div>
+      </div>
+    </div>
   </div>
-  <div class="project-hero-right">
-    <div class="project-meta-item">
-      <div class="project-meta-label">Type</div>
-      <div class="project-meta-value">Interior Design</div>
-    </div>
-    <div class="project-meta-item">
-      <div class="project-meta-label">Program</div>
-      <div class="project-meta-value">Student Lounge</div>
-    </div>
-    <div class="project-meta-item">
-      <div class="project-meta-label">Concept</div>
-      <div class="project-meta-value">Spider-Verse Glitch Sequences</div>
-    </div>
-    <div class="project-meta-item">
-      <div class="project-meta-label">Institution</div>
-      <div class="project-meta-value">Woodbury University</div>
-    </div>
+
+  <div class="img-cell" data-index="0">
+    <img src="images/after-image-1.png" alt="Exterior render, Woodbury quad"/>
   </div>
+
+  <!-- Row 2 -->
+  <div class="img-cell" data-index="1">
+    <img src="images/after-image-2.png" alt="Glitch reference study"/>
+  </div>
+  <div class="img-cell" data-index="2">
+    <img src="images/after-image-3.png" alt="Motion extraction sequence"/>
+  </div>
+
+  <!-- Row 3 -->
+  <div class="img-cell" data-index="3">
+    <img src="images/after-image-4.png" alt="North elevation"/>
+  </div>
+  <div class="img-cell" data-index="4">
+    <img src="images/after-image-5.png" alt="East elevation"/>
+  </div>
+
 </div>
 
-<section style="border-bottom: 1px solid var(--border);">
-  <div class="gallery">
-
-    <div class="gallery-row full">
-      <div class="gallery-img wide">
-        <!-- <img src="images/after-image-1.jpg" alt="After Image — Interior"/> -->
-        <div class="img-placeholder">
-          <span class="img-icon">⬜</span>
-          <span class="img-label">Image 1</span>
-          <span>images/after-image-1.jpg</span>
-        </div>
-      </div>
-    </div>
-    <div class="gallery-caption">Interior perspective — student lounge</div>
-
-    <div class="gallery-row half">
-      <div class="gallery-img tall">
-        <!-- <img src="images/after-image-2.jpg" alt="After Image — Concept"/> -->
-        <div class="img-placeholder">
-          <span class="img-icon">⬜</span>
-          <span class="img-label">Image 2</span>
-          <span>images/after-image-2.jpg</span>
-        </div>
-      </div>
-      <div class="gallery-img tall">
-        <!-- <img src="images/after-image-3.jpg" alt="After Image — Diagram"/> -->
-        <div class="img-placeholder">
-          <span class="img-icon">⬜</span>
-          <span class="img-label">Image 3</span>
-          <span>images/after-image-3.jpg</span>
-        </div>
-      </div>
-    </div>
-    <div class="gallery-caption">Concept collage and spatial diagram</div>
-
-    <div class="gallery-row full">
-      <div class="gallery-img wide">
-        <!-- <img src="images/after-image-4.jpg" alt="After Image — Render"/> -->
-        <div class="img-placeholder">
-          <span class="img-icon">⬜</span>
-          <span class="img-label">Image 4</span>
-          <span>images/after-image-4.jpg</span>
-        </div>
-      </div>
-    </div>
-    <div class="gallery-caption">Rendered interior view — seating area</div>
-
-    <div class="gallery-row third">
-      <div class="gallery-img square">
-        <!-- <img src="images/after-image-5.jpg" alt="After Image — Plan"/> -->
-        <div class="img-placeholder">
-          <span class="img-icon">⬜</span>
-          <span class="img-label">Image 5</span>
-          <span>after-image-5.jpg</span>
-        </div>
-      </div>
-      <div class="gallery-img square">
-        <!-- <img src="images/after-image-6.jpg" alt="After Image — Material"/> -->
-        <div class="img-placeholder">
-          <span class="img-icon">⬜</span>
-          <span class="img-label">Image 6</span>
-          <span>after-image-6.jpg</span>
-        </div>
-      </div>
-      <div class="gallery-img square">
-        <!-- <img src="images/after-image-7.jpg" alt="After Image — Detail"/> -->
-        <div class="img-placeholder">
-          <span class="img-icon">⬜</span>
-          <span class="img-label">Image 7</span>
-          <span>after-image-7.jpg</span>
-        </div>
-      </div>
-    </div>
-    <div class="gallery-caption">Floor plan, material palette, construction detail</div>
-
-  </div>
-</section>
-
-<div class="project-nav">
+<!-- ══ PROJECT NAV — DIV (not nav) so it stays at the bottom ══ -->
+<div class="project-nav-row">
   <a href="submergence.html" class="project-nav-item">
-    <span class="project-nav-label">← Previous</span>
-    <span class="project-nav-title">Submergence</span>
+    <div class="project-nav-label">← Previous</div>
+    <div class="project-nav-title">Submergence</div>
   </a>
-  <a href="three-contacts.html" class="project-nav-item">
-    <span class="project-nav-label">Next Project →</span>
-    <span class="project-nav-title">Three Contacts</span>
+  <a href="three-contacts.html" class="project-nav-item right">
+    <div class="project-nav-label">Next →</div>
+    <div class="project-nav-title">Three Contacts</div>
   </a>
 </div>
 
+<!-- ══ FOOTER ══ -->
 <footer>
   <span>© 2026 Ye Yint Aung</span>
-  <span>P.04 — After Image</span>
+  <span>Architecture · Design Computation · Making</span>
 </footer>
+
+<!-- ══ LIGHTBOX SCRIPT ══ -->
+<script>
+  (() => {
+    const overlay  = document.getElementById('lightbox');
+    const imgEl    = document.getElementById('lightbox-img');
+    const closeBtn = document.getElementById('lightbox-close');
+    const counter  = document.getElementById('lightbox-counter');
+
+    const items = Array.from(document.querySelectorAll('.img-cell img'));
+    let current = 0;
+
+    function open(index) {
+      current = index;
+      imgEl.src = items[current].src;
+      imgEl.alt = items[current].alt;
+      counter.textContent = `${current + 1} / ${items.length}`;
+      overlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function close() {
+      overlay.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function navigate(dir) {
+      current = (current + dir + items.length) % items.length;
+      imgEl.style.opacity = '0';
+      setTimeout(() => {
+        imgEl.src = items[current].src;
+        imgEl.alt = items[current].alt;
+        counter.textContent = `${current + 1} / ${items.length}`;
+        imgEl.style.opacity = '1';
+      }, 150);
+    }
+
+    items.forEach((img, i) => {
+      img.closest('.img-cell').addEventListener('click', () => open(i));
+    });
+
+    closeBtn.addEventListener('click', (e) => { e.stopPropagation(); close(); });
+
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay || e.target === imgEl) {
+        const half = window.innerWidth / 2;
+        if (e.target === imgEl) {
+          navigate(e.clientX < half ? -1 : 1);
+        } else {
+          close();
+        }
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (!overlay.classList.contains('open')) return;
+      if (e.key === 'Escape')     close();
+      if (e.key === 'ArrowRight') navigate(1);
+      if (e.key === 'ArrowLeft')  navigate(-1);
+    });
+
+    imgEl.style.transition = 'opacity 0.15s ease';
+  })();
+</script>
 
 </body>
 </html>
