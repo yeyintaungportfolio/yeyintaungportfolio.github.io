@@ -182,10 +182,46 @@ h1 em { font-style: italic; color: var(--accent); }
   padding: 1rem 2rem;
   transition: all 0.3s;
   cursor: pointer;
+  align-self: flex-start;
+  margin-bottom: 1rem;
 }
 .hero-cta:hover { border-color: var(--accent); color: var(--accent); background: rgba(200,184,122,0.04); }
 .hero-cta::after { content: '→'; transition: transform 0.3s; }
 .hero-cta:hover::after { transform: translateX(4px); }
+
+/* ── HERO DOWNLOAD BUTTONS ── */
+.hero-downloads {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.hero-dl-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  border: 1px solid var(--border);
+  padding: 0.75rem 1.25rem;
+  transition: all 0.3s;
+  flex: 1;
+  justify-content: center;
+}
+
+.hero-dl-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(200, 184, 122, 0.04);
+}
+
+.dl-icon {
+  font-size: 12px;
+  color: var(--accent);
+}
+
 .hero-right {
   padding: 8rem 3rem 4rem;
   display: flex;
@@ -641,6 +677,7 @@ footer {
 .hero-left > *:nth-child(2) { animation-delay: 0.25s; }
 .hero-left > *:nth-child(3) { animation-delay: 0.4s; }
 .hero-left > *:nth-child(4) { animation-delay: 0.55s; }
+.hero-left > *:nth-child(5) { animation-delay: 0.7s; }
 
 /* ── RESPONSIVE ── */
 @media (max-width: 768px) {
@@ -665,6 +702,7 @@ footer {
   #hero { grid-template-columns: 1fr; }
   .hero-left { padding: 6rem 1.5rem 2rem; border-right: none; border-bottom: 1px solid var(--border); }
   .hero-right { padding: 2rem 1.5rem 3rem; }
+  .hero-downloads { flex-wrap: wrap; }
   .projects-grid { grid-template-columns: 1fr; }
   .project-card { border-right: none !important; }
   .skills-grid { grid-template-columns: 1fr; }
