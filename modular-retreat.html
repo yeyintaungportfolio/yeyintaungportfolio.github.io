@@ -72,8 +72,11 @@
       padding-top: 0;
     }
 
-    /* Hero cell */
+    /* Hero cell — always square, matching .img-cell */
     .hero-cell {
+      aspect-ratio: 1 / 1;
+      overflow-y: auto;
+      box-sizing: border-box;
       background: var(--surface);
       border: 1px solid var(--border);
       padding: 3rem 2.5rem;
@@ -94,15 +97,10 @@
       cursor: zoom-in;
     }
     @media (max-width: 768px) {
-  .page-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .hero-cell {
-    aspect-ratio: 1 / 1;
-    overflow-y: auto;
-  }
-}
+      .page-grid {
+        grid-template-columns: 1fr;
+      }
+    }
     .img-cell img {
       width: 100%;
       height: 100%;
