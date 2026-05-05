@@ -114,23 +114,25 @@
     /* 1:1 — square */
     .img-cell--1x1 { aspect-ratio: 1 / 1; }
 
-    /* chunk model studies — full image visible, padded so it reads smaller */
+    /* chunk model studies — unchanged, centered with side padding */
     .img-cell--3x1 { aspect-ratio: 3 / 1; }
     .img-cell--3x1 img {
       object-fit: contain;
-      padding: 1.5rem;
+      object-position: center;
+      padding: 1.25rem 1.5rem;
       box-sizing: border-box;
     }
     .img-cell--3x1:hover img { transform: scale(1.03); }
 
-    /* tower iterations — full image visible, padded, full width */
+    /* tower iterations — no side padding so image scales up to align with chunk models */
     .img-cell--4x1 {
       aspect-ratio: 4 / 1;
       grid-column: 1 / -1;
     }
     .img-cell--4x1 img {
       object-fit: contain;
-      padding: 1.5rem;
+      object-position: center;
+      padding: 1.25rem 0;
       box-sizing: border-box;
     }
     .img-cell--4x1:hover img { transform: scale(1.03); }
