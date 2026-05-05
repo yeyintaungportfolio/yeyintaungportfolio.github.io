@@ -114,18 +114,30 @@
     /* 1:1 — square */
     .img-cell--1x1 { aspect-ratio: 1 / 1; }
 
-    /* 4:1 — chunk model studies (was 3:1, now shorter) */
-    .img-cell--3x1 { aspect-ratio: 4 / 1; }
+    /* chunk model studies — full image visible, padded so it reads smaller */
+    .img-cell--3x1 { aspect-ratio: 3 / 1; }
+    .img-cell--3x1 img {
+      object-fit: contain;
+      padding: 1.5rem;
+      box-sizing: border-box;
+    }
+    .img-cell--3x1:hover img { transform: scale(1.03); }
 
-    /* Tower iterations — full width, now much shorter (was 4:1) */
+    /* tower iterations — full image visible, padded, full width */
     .img-cell--4x1 {
-      aspect-ratio: 7 / 1;
+      aspect-ratio: 4 / 1;
       grid-column: 1 / -1;
     }
+    .img-cell--4x1 img {
+      object-fit: contain;
+      padding: 1.5rem;
+      box-sizing: border-box;
+    }
+    .img-cell--4x1:hover img { transform: scale(1.03); }
 
-    /* Axonometric — full width, trimmed from 4:3 to 16:9 */
+    /* 4:3 — axonometric — spans full width */
     .img-cell--4x3 {
-      aspect-ratio: 16 / 9;
+      aspect-ratio: 4 / 3;
       grid-column: 1 / -1;
     }
 
@@ -225,7 +237,7 @@
     <img src="images/emergence-1.png" alt="Emergence — final model overview"/>
   </div>
 
-  <!-- Row 2: Two wide images — chunk model studies (now 4:1 each, was 3:1) -->
+  <!-- Row 2: Two wide images — chunk model studies -->
   <div class="img-cell img-cell--3x1" data-index="1">
     <img src="images/emergence-2.png" alt="Chunk model study 01"/>
   </div>
@@ -233,12 +245,12 @@
     <img src="images/emergence-3.png" alt="Chunk model study 02"/>
   </div>
 
-  <!-- Row 3: Full-width tower iterations (now 7:1, was 4:1) -->
+  <!-- Row 3: Full-width tower iterations -->
   <div class="img-cell img-cell--4x1" data-index="3">
     <img src="images/emergence-4.png" alt="Tower iterations"/>
   </div>
 
-  <!-- Row 4: Full-width axonometric (now 16:9, was 4:3) -->
+  <!-- Row 4: Full-width axonometric -->
   <div class="img-cell img-cell--4x3" data-index="4">
     <img src="images/emergence-5.png" alt="Axonometric section"/>
   </div>
