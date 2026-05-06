@@ -6,137 +6,368 @@
   <title>Submergence — Ye Yint Aung</title>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="style.css"/>
+  <style>
+
+    /* ── LIGHTBOX ── */
+    .lightbox-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: rgba(13, 13, 11, 0.96);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      cursor: zoom-out;
+    }
+    .lightbox-overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+    .lightbox-overlay img {
+      max-width: 90vw;
+      max-height: 90vh;
+      object-fit: contain;
+      display: block;
+      transform: scale(0.96);
+      transition: transform 0.3s ease;
+    }
+    .lightbox-overlay.open img {
+      transform: scale(1);
+    }
+    .lightbox-close {
+      position: fixed;
+      top: 2rem;
+      right: 2.5rem;
+      font-size: 10px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--muted);
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .lightbox-close:hover { color: var(--accent); }
+    .lightbox-counter {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+    }
+
+    /* offset body so fixed nav doesn't cover content */
+    body { padding-top: 42px; }
+
+    /* ── PAGE GRID ── */
+    .page-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      padding: 2px;
+      padding-top: 0;
+    }
+
+    /* Hero cell — always square, matching .img-cell */
+    .hero-cell {
+      aspect-ratio: 1 / 1;
+      overflow-y: auto;
+      box-sizing: border-box;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 3rem 2.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .hero-cell-top { display: flex; flex-direction: column; gap: 1rem; }
+    .hero-cell-meta { display: flex; flex-direction: column; gap: 0; }
+
+    /* ── IMAGE CELLS — zoom only on hover, no overlay ── */
+    .img-cell {
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      position: relative;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      cursor: zoom-in;
+    }
+    @media (max-width: 768px) {
+      .page-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .img-cell img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.45s ease;
+    }
+    .img-cell:hover img {
+      transform: scale(1.06);
+    }
+
+    /* ── PROJECT NAV — div, not nav, so global nav CSS can't touch it ── */
+    .project-nav-row {
+      position: static !important;
+      display: flex !important;
+      justify-content: space-between;
+      border-top: 1px solid var(--border);
+      background: transparent;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .project-nav-item {
+      padding: 1.75rem 2rem;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      transition: background 0.2s;
+    }
+    .project-nav-item:hover { background: var(--surface); }
+    .project-nav-item.right { text-align: right; }
+    .project-nav-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .project-nav-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 300;
+      color: var(--accent);
+    }
+
+    /* ── Description fills hero cell width ── */
+    .project-page-desc {
+      width: 100%;
+      max-width: none;
+      box-sizing: border-box;
+    }
+
+    /* ── Full-width image cell (spans both columns) ── */
+    .img-cell--wide {
+      grid-column: 1 / -1;
+      aspect-ratio: 2 / 1;
+    }
+
+    /* ── Row 5: landscape left (>50%) + stacked right ── */
+    .row5-grid {
+      display: grid;
+      grid-template-columns: 3fr 2fr;
+      gap: 2px;
+      padding: 0 2px 2px;
+    }
+    .img-cell--landscape {
+      aspect-ratio: 16 / 9;
+    }
+    .img-stack {
+      display: grid;
+      grid-template-rows: 1fr 1fr;
+      gap: 2px;
+    }
+    /* stacked cells fill their row, no forced aspect-ratio */
+    .img-cell--stacked {
+      aspect-ratio: unset;
+      height: 100%;
+    }
+    @media (max-width: 768px) {
+      .row5-grid {
+        grid-template-columns: 1fr;
+      }
+      .img-cell--landscape {
+        aspect-ratio: 4 / 3;
+      }
+      .img-stack {
+        grid-template-rows: unset;
+        grid-template-columns: 1fr 1fr;
+      }
+      .img-cell--stacked {
+        aspect-ratio: 1 / 1;
+        height: auto;
+      }
+    }
+
+  </style>
 </head>
 <body>
 
+<!-- ══ LIGHTBOX OVERLAY ══ -->
+<div class="lightbox-overlay" id="lightbox" role="dialog" aria-modal="true">
+  <span class="lightbox-close" id="lightbox-close">Close ×</span>
+  <img id="lightbox-img" src="" alt=""/>
+  <div class="lightbox-counter" id="lightbox-counter"></div>
+</div>
+
+<!-- ══ NAV — fixed top, always visible ══ -->
 <nav>
   <a href="index.html" class="nav-logo">YYA</a>
   <div class="nav-links">
-    <a href="index.html#projects" class="nav-back">All Projects</a>
+    <a href="projects.html">All Projects</a>
   </div>
 </nav>
 
-<div class="project-hero">
-  <div class="project-hero-left">
-    <div class="project-page-num">P.03</div>
-    <div class="project-page-title">Submergence</div>
-    <p class="project-page-desc">
-      A public pool complex rooted in the cultural fabric of Chinatown, Los Angeles. The project approaches architecture as community infrastructure — a space where water, light, and public life intersect.
-    </p>
+<!-- ══ PAGE GRID ══ -->
+<div class="page-grid">
+
+  <!-- Row 1: Hero (left) + Image 1 exploded axon (right) -->
+  <div class="hero-cell">
+    <div class="hero-cell-top">
+      <div class="project-page-num">P.03</div>
+      <h1 class="project-page-title">Sub&shy;mergence</h1>
+      <p class="project-page-desc">
+        Located in the Chinatown / Lincoln Heights area of Los Angeles, the project reactivates an underused public pool site as a new civic gathering space. Set within a dense and fragmented urban fabric, the proposal introduces a contemporary pool complex that brings people together through water, shade, and open spatial continuity. The design developed through early diagrammatic and morphological studies exploring aggregation across the triangular site, later translating into clustered program volumes organized beneath a lifted canopy. The floating roof acts as an environmental layer — providing shade, collecting seasonal rainwater for filtration and reuse, and introducing natural light through large apertures. Together, canopy, water, and clustered forms create a layered public environment that merges recreation, climate responsiveness, and communal space.
+      </p>
+    </div>
+    <div class="hero-cell-meta">
+      <div class="project-meta-item">
+        <div class="project-meta-label">Type</div>
+        <div class="project-meta-value">Contemporary Pool Complex</div>
+      </div>
+      <div class="project-meta-item">
+        <div class="project-meta-label">Location</div>
+        <div class="project-meta-value">Chinatown / Lincoln Heights, Los Angeles, CA</div>
+      </div>
+      <div class="project-meta-item">
+        <div class="project-meta-label">Program</div>
+        <div class="project-meta-value">Civic Gathering Space</div>
+      </div>
+      <div class="project-meta-item">
+        <div class="project-meta-label">Date</div>
+        <div class="project-meta-value">Spring 2024</div>
+      </div>
+    </div>
   </div>
-  <div class="project-hero-right">
-    <div class="project-meta-item">
-      <div class="project-meta-label">Type</div>
-      <div class="project-meta-value">Public Space · Civic Architecture</div>
+
+  <!-- Image 1: exploded axon -->
+  <div class="img-cell" data-index="0">
+    <img src="images/submergence-1.jpg" alt="Exploded axonometric, Submergence"/>
+  </div>
+
+  <!-- Row 2: Morphological studies + Geometric aggregation sketches -->
+  <div class="img-cell" data-index="1">
+    <img src="images/submergence-2.png" alt="Morphological studies"/>
+  </div>
+  <div class="img-cell" data-index="2">
+    <img src="images/submergence-3.png" alt="Geometric aggregation sketches"/>
+  </div>
+
+  <!-- Row 3: Site plan — full width -->
+  <div class="img-cell img-cell--wide" data-index="3">
+    <img src="images/submergence-4.png" alt="Site plan"/>
+  </div>
+
+  <!-- Row 4: Sections A & B — full width -->
+  <div class="img-cell img-cell--wide" data-index="4">
+    <img src="images/submergence-6.png" alt="Sections A and B"/>
+  </div>
+
+</div>
+
+<!-- Row 5: Elevations (landscape, left) + stacked renders (right) -->
+<div class="row5-grid">
+  <div class="img-cell img-cell--landscape" data-index="5">
+    <img src="images/submergence-5.png" alt="East and South elevations"/>
+  </div>
+  <div class="img-stack">
+    <div class="img-cell img-cell--stacked" data-index="6">
+      <img src="images/submergence-7.png" alt="Exterior render — canopy detail"/>
     </div>
-    <div class="project-meta-item">
-      <div class="project-meta-label">Location</div>
-      <div class="project-meta-value">Chinatown, Los Angeles</div>
-    </div>
-    <div class="project-meta-item">
-      <div class="project-meta-label">Program</div>
-      <div class="project-meta-value">Public Pool Complex</div>
-    </div>
-    <div class="project-meta-item">
-      <div class="project-meta-label">Institution</div>
-      <div class="project-meta-value">Woodbury University</div>
+    <div class="img-cell img-cell--stacked" data-index="7">
+      <img src="images/submergence-8.png" alt="Interior render"/>
     </div>
   </div>
 </div>
 
-<section style="border-bottom: 1px solid var(--border);">
-  <div class="gallery">
-
-    <div class="gallery-row full">
-      <div class="gallery-img wide">
-        <!-- <img src="images/submergence-1.jpg" alt="Submergence — Aerial"/> -->
-        <div class="img-placeholder">
-          <span class="img-icon">⬜</span>
-          <span class="img-label">Image 1</span>
-          <span>images/submergence-1.jpg</span>
-        </div>
-      </div>
-    </div>
-    <div class="gallery-caption">Site overview — Chinatown, Los Angeles</div>
-
-    <div class="gallery-row half">
-      <div class="gallery-img tall">
-        <!-- <img src="images/submergence-2.jpg" alt="Submergence — Pool"/> -->
-        <div class="img-placeholder">
-          <span class="img-icon">⬜</span>
-          <span class="img-label">Image 2</span>
-          <span>images/submergence-2.jpg</span>
-        </div>
-      </div>
-      <div class="gallery-img tall">
-        <!-- <img src="images/submergence-3.jpg" alt="Submergence — Section"/> -->
-        <div class="img-placeholder">
-          <span class="img-icon">⬜</span>
-          <span class="img-label">Image 3</span>
-          <span>images/submergence-3.jpg</span>
-        </div>
-      </div>
-    </div>
-    <div class="gallery-caption">Pool interior render and sectional drawing</div>
-
-    <div class="gallery-row full">
-      <div class="gallery-img wide">
-        <!-- <img src="images/submergence-4.jpg" alt="Submergence — Entry"/> -->
-        <div class="img-placeholder">
-          <span class="img-icon">⬜</span>
-          <span class="img-label">Image 4</span>
-          <span>images/submergence-4.jpg</span>
-        </div>
-      </div>
-    </div>
-    <div class="gallery-caption">Entry sequence and public plaza</div>
-
-    <div class="gallery-row third">
-      <div class="gallery-img square">
-        <!-- <img src="images/submergence-5.jpg" alt="Submergence — Plan"/> -->
-        <div class="img-placeholder">
-          <span class="img-icon">⬜</span>
-          <span class="img-label">Image 5</span>
-          <span>submergence-5.jpg</span>
-        </div>
-      </div>
-      <div class="gallery-img square">
-        <!-- <img src="images/submergence-6.jpg" alt="Submergence — Detail"/> -->
-        <div class="img-placeholder">
-          <span class="img-icon">⬜</span>
-          <span class="img-label">Image 6</span>
-          <span>submergence-6.jpg</span>
-        </div>
-      </div>
-      <div class="gallery-img square">
-        <!-- <img src="images/submergence-7.jpg" alt="Submergence — Model"/> -->
-        <div class="img-placeholder">
-          <span class="img-icon">⬜</span>
-          <span class="img-label">Image 7</span>
-          <span>submergence-7.jpg</span>
-        </div>
-      </div>
-    </div>
-    <div class="gallery-caption">Floor plan, facade detail, physical model</div>
-
-  </div>
-</section>
-
-<div class="project-nav">
+<!-- ══ PROJECT NAV — DIV (not nav) so it stays at the bottom ══ -->
+<div class="project-nav-row">
   <a href="emergence.html" class="project-nav-item">
-    <span class="project-nav-label">← Previous</span>
-    <span class="project-nav-title">Emergence</span>
+    <div class="project-nav-label">← Previous</div>
+    <div class="project-nav-title">Emergence</div>
   </a>
-  <a href="after-image.html" class="project-nav-item">
-    <span class="project-nav-label">Next Project →</span>
-    <span class="project-nav-title">After Image</span>
+  <a href="after-image.html" class="project-nav-item right">
+    <div class="project-nav-label">Next →</div>
+    <div class="project-nav-title">After-Image</div>
   </a>
 </div>
 
+<!-- ══ FOOTER ══ -->
 <footer>
   <span>© 2026 Ye Yint Aung</span>
-  <span>P.03 — Submergence</span>
+  <span>Architecture · Design Computation · Making</span>
 </footer>
+
+<!-- ══ LIGHTBOX SCRIPT ══ -->
+<script>
+  (() => {
+    const overlay  = document.getElementById('lightbox');
+    const imgEl    = document.getElementById('lightbox-img');
+    const closeBtn = document.getElementById('lightbox-close');
+    const counter  = document.getElementById('lightbox-counter');
+
+    const items = Array.from(document.querySelectorAll('.img-cell img'));
+    let current = 0;
+
+    function open(index) {
+      current = index;
+      imgEl.src = items[current].src;
+      imgEl.alt = items[current].alt;
+      counter.textContent = `${current + 1} / ${items.length}`;
+      overlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function close() {
+      overlay.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function navigate(dir) {
+      current = (current + dir + items.length) % items.length;
+      imgEl.style.opacity = '0';
+      setTimeout(() => {
+        imgEl.src = items[current].src;
+        imgEl.alt = items[current].alt;
+        counter.textContent = `${current + 1} / ${items.length}`;
+        imgEl.style.opacity = '1';
+      }, 150);
+    }
+
+    items.forEach((img, i) => {
+      img.closest('.img-cell').addEventListener('click', () => open(i));
+    });
+
+    closeBtn.addEventListener('click', (e) => { e.stopPropagation(); close(); });
+
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay || e.target === imgEl) {
+        const half = window.innerWidth / 2;
+        if (e.target === imgEl) {
+          navigate(e.clientX < half ? -1 : 1);
+        } else {
+          close();
+        }
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (!overlay.classList.contains('open')) return;
+      if (e.key === 'Escape')     close();
+      if (e.key === 'ArrowRight') navigate(1);
+      if (e.key === 'ArrowLeft')  navigate(-1);
+    });
+
+    imgEl.style.transition = 'opacity 0.15s ease';
+  })();
+</script>
 
 </body>
 </html>
