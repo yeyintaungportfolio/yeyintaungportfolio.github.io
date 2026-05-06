@@ -434,6 +434,19 @@
     imgEl.style.transition = 'opacity 0.15s ease';
   })();
 </script>
+<script>
+  // CALIBRATION HELPER — remove after done
+  const sheet = document.querySelector('.img-cell--sheet');
+  const readout = document.createElement('div');
+  readout.style.cssText = 'position:fixed;top:1rem;left:1rem;background:#000;color:lime;font:11px monospace;padding:6px 10px;z-index:9999;pointer-events:none;';
+  document.body.appendChild(readout);
 
+  sheet.addEventListener('mousemove', (e) => {
+    const r = sheet.getBoundingClientRect();
+    const x = ((e.clientX - r.left) / r.width * 100).toFixed(1);
+    const y = ((e.clientY - r.top)  / r.height * 100).toFixed(1);
+    readout.textContent = `x: ${x}%   y: ${y}%`;
+  });
+</script>
 </body>
 </html>
