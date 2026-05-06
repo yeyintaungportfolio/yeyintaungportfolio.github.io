@@ -300,28 +300,28 @@
     <div class="plan-hotspot"
          data-src="images/emergence-plan-3f.png"
          data-alt="3rd Floor"
-         style="top: 3%; left: 1.5%; width: 19.5%; height: 47%;">
+         style="top: 4.8%; left: 3.5%; width: 20.5%; height: 40.9%;">
     </div>
 
     <!-- 1st Floor — bottom left -->
     <div class="plan-hotspot"
          data-src="images/emergence-plan-1f.png"
          data-alt="1st Floor"
-         style="top: 52%; left: 1.5%; width: 19.5%; height: 45%;">
+         style="top: 54.3%; left: 3.5%; width: 20.5%; height: 40.9%;">
     </div>
 
     <!-- 9th Floor — top right -->
     <div class="plan-hotspot"
          data-src="images/emergence-plan-9f.png"
          data-alt="9th Floor"
-         style="top: 3%; left: 79%; width: 19.5%; height: 47%;">
+         style="top: 4.8%; left: 76%; width: 20.5%; height: 40.9%;">
     </div>
 
     <!-- 4th Floor — bottom right -->
     <div class="plan-hotspot"
          data-src="images/emergence-plan-4f.png"
          data-alt="4th Floor"
-         style="top: 52%; left: 79%; width: 19.5%; height: 45%;">
+         style="top: 54.3%; left: 76%; width: 20.5%; height: 40.9%;">
     </div>
   </div>
 
@@ -434,19 +434,6 @@
     imgEl.style.transition = 'opacity 0.15s ease';
   })();
 </script>
-<script>
-  // CALIBRATION HELPER — remove after done
-  const sheet = document.querySelector('.img-cell--sheet');
-  const readout = document.createElement('div');
-  readout.style.cssText = 'position:fixed;top:1rem;left:1rem;background:#000;color:lime;font:11px monospace;padding:6px 10px;z-index:9999;pointer-events:none;';
-  document.body.appendChild(readout);
 
-  sheet.addEventListener('mousemove', (e) => {
-    const r = sheet.getBoundingClientRect();
-    const x = ((e.clientX - r.left) / r.width * 100).toFixed(1);
-    const y = ((e.clientY - r.top)  / r.height * 100).toFixed(1);
-    readout.textContent = `x: ${x}%   y: ${y}%`;
-  });
-</script>
 </body>
 </html>
