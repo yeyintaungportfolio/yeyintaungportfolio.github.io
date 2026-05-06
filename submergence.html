@@ -159,15 +159,15 @@
       aspect-ratio: 2 / 1;
     }
 
-    /* ── Row 5: landscape left (>50%) + stacked right ── */
+    /* ── Row 5: elevation left (2/3) + stacked renders right (1/3) ── */
     .row5-grid {
       display: grid;
-      grid-template-columns: 3fr 2fr;
+      grid-template-columns: 2fr 1fr;
       gap: 2px;
       padding: 0 2px 2px;
     }
     .img-cell--landscape {
-      aspect-ratio: 16 / 9;
+      aspect-ratio: 1 / 1;
     }
     .img-stack {
       display: grid;
@@ -184,7 +184,7 @@
         grid-template-columns: 1fr;
       }
       .img-cell--landscape {
-        aspect-ratio: 4 / 3;
+        aspect-ratio: 1 / 1;
       }
       .img-stack {
         grid-template-rows: unset;
