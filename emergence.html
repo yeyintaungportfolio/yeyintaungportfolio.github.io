@@ -110,23 +110,63 @@
     .img-cell:hover img { transform: scale(1.06); }
 
     /* ── ASPECT RATIO VARIANTS ── */
-
-    /* 1:1 — square */
     .img-cell--1x1 { aspect-ratio: 1 / 1; }
-
-    /* 3:1 — 3 wide, 1 tall */
     .img-cell--3x1 { aspect-ratio: 3 / 1; }
-
-    /* 4:1 — 4 wide, 1 tall — spans full width */
     .img-cell--4x1 {
       aspect-ratio: 4 / 1;
       grid-column: 1 / -1;
     }
-
-    /* 4:3 — 4 wide, 3 tall — spans full width */
     .img-cell--4x3 {
       aspect-ratio: 4 / 3;
       grid-column: 1 / -1;
+    }
+
+    /* ── SHEET CELL — natural aspect ratio, full width ── */
+    .img-cell--sheet {
+      grid-column: 1 / -1;
+      cursor: zoom-in;
+    }
+    .img-cell--sheet img {
+      width: 100%;
+      height: auto;
+      object-fit: initial;
+      display: block;
+    }
+    /* sheet shouldn't scale on hover since it has hotspots */
+    .img-cell--sheet:hover img {
+      transform: none;
+    }
+
+    /* ── PLAN HOTSPOTS ── */
+    .plan-hotspot {
+      position: absolute;
+      cursor: zoom-in;
+      z-index: 10;
+      border: 1px solid transparent;
+      transition: border-color 0.25s, background 0.25s;
+      box-sizing: border-box;
+    }
+    .plan-hotspot:hover {
+      border-color: var(--accent);
+      background: rgba(255, 255, 255, 0.05);
+    }
+    /* small label that appears on hover */
+    .plan-hotspot::after {
+      content: attr(data-alt);
+      position: absolute;
+      bottom: 0.5rem;
+      right: 0.5rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      opacity: 0;
+      transition: opacity 0.2s;
+      pointer-events: none;
+    }
+    .plan-hotspot:hover::after {
+      opacity: 1;
     }
 
     /* ── PROJECT NAV ── */
@@ -166,7 +206,8 @@
     @media (max-width: 768px) {
       .page-grid { grid-template-columns: 1fr; }
       .img-cell--4x1,
-      .img-cell--4x3 { grid-column: 1; }
+      .img-cell--4x3,
+      .img-cell--sheet { grid-column: 1; }
     }
 
   </style>
@@ -251,6 +292,39 @@
     <img src="images/emergence-7.png" alt="Floor plan detail 02"/>
   </div>
 
+  <!-- Row 6: Full-width sheet with clickable plan hotspots -->
+  <div class="img-cell img-cell--sheet" data-index="7">
+    <img src="images/emergence-sheet.png" alt="Section and floor plans"/>
+
+    <!-- 3rd Floor — top left -->
+    <div class="plan-hotspot"
+         data-src="images/emergence-plan-3f.png"
+         data-alt="3rd Floor"
+         style="top: 3%; left: 1.5%; width: 19.5%; height: 47%;">
+    </div>
+
+    <!-- 1st Floor — bottom left -->
+    <div class="plan-hotspot"
+         data-src="images/emergence-plan-1f.png"
+         data-alt="1st Floor"
+         style="top: 52%; left: 1.5%; width: 19.5%; height: 45%;">
+    </div>
+
+    <!-- 9th Floor — top right -->
+    <div class="plan-hotspot"
+         data-src="images/emergence-plan-9f.png"
+         data-alt="9th Floor"
+         style="top: 3%; left: 79%; width: 19.5%; height: 47%;">
+    </div>
+
+    <!-- 4th Floor — bottom right -->
+    <div class="plan-hotspot"
+         data-src="images/emergence-plan-4f.png"
+         data-alt="4th Floor"
+         style="top: 52%; left: 79%; width: 19.5%; height: 45%;">
+    </div>
+  </div>
+
 </div>
 
 <!-- ══ PROJECT NAV ══ -->
@@ -279,14 +353,27 @@
     const closeBtn = document.getElementById('lightbox-close');
     const counter  = document.getElementById('lightbox-counter');
 
+    // Only the main img-cell images (not hotspot crops) go in the nav sequence
     const items = Array.from(document.querySelectorAll('.img-cell img'));
     let current = 0;
+    let hotspotOpen = false;
 
     function open(index) {
+      hotspotOpen = false;
       current = index;
       imgEl.src = items[current].src;
       imgEl.alt = items[current].alt;
       counter.textContent = `${current + 1} / ${items.length}`;
+      overlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    // Opens a specific src directly (for hotspot crops)
+    function openBySrc(src, alt) {
+      hotspotOpen = true;
+      imgEl.src = src;
+      imgEl.alt = alt;
+      counter.textContent = alt;
       overlay.classList.add('open');
       document.body.style.overflow = 'hidden';
     }
@@ -297,6 +384,7 @@
     }
 
     function navigate(dir) {
+      if (hotspotOpen) return; // no prev/next when a crop is open
       current = (current + dir + items.length) % items.length;
       imgEl.style.opacity = '0';
       setTimeout(() => {
@@ -307,8 +395,20 @@
       }, 150);
     }
 
+    // Regular img-cell clicks — skip if a hotspot was the target
     items.forEach((img, i) => {
-      img.closest('.img-cell').addEventListener('click', () => open(i));
+      img.closest('.img-cell').addEventListener('click', (e) => {
+        if (e.target.classList.contains('plan-hotspot')) return;
+        open(i);
+      });
+    });
+
+    // Hotspot clicks
+    document.querySelectorAll('.plan-hotspot').forEach(hotspot => {
+      hotspot.addEventListener('click', (e) => {
+        e.stopPropagation();
+        openBySrc(hotspot.dataset.src, hotspot.dataset.alt);
+      });
     });
 
     closeBtn.addEventListener('click', (e) => { e.stopPropagation(); close(); });
@@ -316,7 +416,7 @@
     overlay.addEventListener('click', (e) => {
       if (e.target === overlay || e.target === imgEl) {
         const half = window.innerWidth / 2;
-        if (e.target === imgEl) {
+        if (e.target === imgEl && !hotspotOpen) {
           navigate(e.clientX < half ? -1 : 1);
         } else {
           close();
