@@ -5,138 +5,692 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Three Contacts — Ye Yint Aung</title>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="style.css"/>
+
+  <style>
+    /* ── DESIGN TOKENS ── */
+    :root {
+      --bg:       #0d0d0b;
+      --surface:  #111110;
+      --border:   #2a2a27;
+      --muted:    #6b6b63;
+      --accent:   #d4cfc4;
+      --text:     #c8c3b8;
+      --bright:   #ede9e0;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      line-height: 1.6;
+      padding-top: 42px;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 900;
+      height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.25em;
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .nav-links a {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ── PAGE GRID ── */
+    .page-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      padding: 2px;
+      padding-top: 0;
+    }
+
+    /* ── HERO CELL ── */
+    .hero-cell {
+      aspect-ratio: 1 / 1;
+      overflow-y: auto;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 3rem 2.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .hero-cell-top { display: flex; flex-direction: column; gap: 1rem; }
+
+    .project-page-num {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+    }
+    .project-page-title {
+      font-size: clamp(2.4rem, 4vw, 3.6rem);
+      font-weight: 300;
+      line-height: 1.05;
+      color: var(--bright);
+      letter-spacing: -0.01em;
+    }
+    .project-page-desc {
+      font-size: 0.92rem;
+      font-weight: 300;
+      color: var(--text);
+      line-height: 1.75;
+      font-style: italic;
+    }
+
+    .hero-cell-meta { display: flex; flex-direction: column; gap: 0; }
+    .project-meta-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 0.55rem 0;
+      border-top: 1px solid var(--border);
+    }
+    .project-meta-item:last-child { border-bottom: 1px solid var(--border); }
+    .project-meta-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .project-meta-value {
+      font-size: 0.88rem;
+      color: var(--accent);
+      text-align: right;
+    }
+
+    /* ── IMAGE CELLS ── */
+    .img-cell {
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      position: relative;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      cursor: zoom-in;
+    }
+    .img-cell img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.45s ease;
+    }
+    .img-cell:hover img { transform: scale(1.06); }
+
+    /* ── DIAGRAM SURROUND ROW ── */
+    .surround-row {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: 1fr 2fr 1fr;
+      gap: 2px;
+      /* no extra margin — flush with 2px gap grid */
+    }
+
+    .surround-diagrams {
+      display: grid;
+      grid-template-rows: 1fr 1fr;
+      gap: 2px;
+    }
+
+    .diagram-cell {
+      overflow: hidden;
+      position: relative;
+      background: #1a2218;
+      border: 1px solid var(--border);
+      cursor: zoom-in;
+    }
+    .diagram-cell img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.45s ease;
+    }
+    .diagram-cell:hover img { transform: scale(1.06); }
+
+    .center-img-cell {
+      overflow: hidden;
+      position: relative;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      cursor: zoom-in;
+      /* taller than square to give the center image more presence */
+      aspect-ratio: unset;
+      min-height: 560px;
+    }
+    .center-img-cell img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+    .center-img-cell:hover img { transform: scale(1.04); }
+
+    /* ── CAROUSEL SECTION ── */
+    .carousel-section {
+      grid-column: 1 / -1;
+      position: relative;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-top: none;
+      overflow: hidden;
+      /* keep aspect ratio of single wide image */
+      aspect-ratio: 16 / 9;
+    }
+
+    .carousel-track {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.55s cubic-bezier(0.77, 0, 0.175, 1);
+    }
+
+    .carousel-slide {
+      flex: 0 0 100%;
+      width: 100%;
+      height: 100%;
+      cursor: zoom-in;
+    }
+    .carousel-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* carousel arrows */
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 10;
+      background: rgba(13,13,11,0.6);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      padding: 0.75rem 1.1rem;
+      cursor: pointer;
+      transition: color 0.2s, background 0.2s;
+      user-select: none;
+    }
+    .carousel-btn:hover { color: var(--bright); background: rgba(13,13,11,0.9); }
+    .carousel-prev { left: 1.5rem; }
+    .carousel-next { right: 1.5rem; }
+
+    /* carousel counter */
+    .carousel-counter {
+      position: absolute;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+      z-index: 10;
+    }
+
+    /* ── FILMSTRIP ── */
+    .filmstrip {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 2px;
+      background: var(--bg);
+      border-top: none;
+    }
+
+    .filmstrip-thumb {
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      cursor: pointer;
+      position: relative;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-top: none;
+      transition: border-color 0.2s;
+    }
+    .filmstrip-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: brightness(0.55) saturate(0.7);
+      transition: filter 0.25s ease, transform 0.35s ease;
+    }
+    .filmstrip-thumb:hover img {
+      filter: brightness(0.8) saturate(0.9);
+      transform: scale(1.06);
+    }
+    .filmstrip-thumb.active {
+      border-color: var(--accent);
+    }
+    .filmstrip-thumb.active img {
+      filter: brightness(1) saturate(1);
+    }
+
+    /* thin accent bar at bottom of active thumb */
+    .filmstrip-thumb::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transition: transform 0.25s ease;
+    }
+    .filmstrip-thumb.active::after {
+      transform: scaleX(1);
+    }
+
+    /* thumb index label */
+    .filmstrip-thumb .thumb-num {
+      position: absolute;
+      top: 0.4rem;
+      left: 0.5rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      color: rgba(200,195,184,0.5);
+      pointer-events: none;
+      transition: color 0.2s;
+    }
+    .filmstrip-thumb.active .thumb-num { color: var(--accent); }
+
+    /* ── LIGHTBOX ── */
+    .lightbox-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: rgba(13, 13, 11, 0.97);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      cursor: zoom-out;
+    }
+    .lightbox-overlay.open { opacity: 1; pointer-events: all; }
+    .lightbox-overlay img {
+      max-width: 90vw;
+      max-height: 90vh;
+      object-fit: contain;
+      display: block;
+      transform: scale(0.96);
+      transition: transform 0.3s ease, opacity 0.15s ease;
+    }
+    .lightbox-overlay.open img { transform: scale(1); }
+    .lightbox-close {
+      position: fixed;
+      top: 2rem; right: 2.5rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--muted);
+      cursor: pointer;
+      transition: color 0.2s;
+      z-index: 1001;
+    }
+    .lightbox-close:hover { color: var(--accent); }
+    .lightbox-counter {
+      position: fixed;
+      bottom: 2rem; left: 50%;
+      transform: translateX(-50%);
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+      z-index: 1001;
+    }
+
+    /* ── PROJECT NAV ── */
+    .project-nav-row {
+      display: flex;
+      justify-content: space-between;
+      border-top: 1px solid var(--border);
+      background: transparent;
+    }
+    .project-nav-item {
+      padding: 1.75rem 2rem;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      transition: background 0.2s;
+    }
+    .project-nav-item:hover { background: var(--surface); }
+    .project-nav-item.right { text-align: right; }
+    .project-nav-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .project-nav-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 300;
+      color: var(--accent);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 2rem;
+      border-top: 1px solid var(--border);
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .page-grid { grid-template-columns: 1fr; }
+      .surround-row { grid-template-columns: 1fr; }
+      .surround-diagrams { grid-template-rows: auto; grid-template-columns: 1fr 1fr; }
+      .center-img-cell { min-height: 300px; }
+      .carousel-section { aspect-ratio: 4 / 3; }
+    }
+  </style>
 </head>
 <body>
 
+<!-- ══ LIGHTBOX ══ -->
+<div class="lightbox-overlay" id="lightbox" role="dialog" aria-modal="true">
+  <span class="lightbox-close" id="lightbox-close">Close ×</span>
+  <img id="lightbox-img" src="" alt=""/>
+  <div class="lightbox-counter" id="lightbox-counter"></div>
+</div>
+
+<!-- ══ NAV ══ -->
 <nav>
   <a href="index.html" class="nav-logo">YYA</a>
   <div class="nav-links">
-    <a href="index.html#projects" class="nav-back">All Projects</a>
+    <a href="projects.html">All Projects</a>
   </div>
 </nav>
 
-<div class="project-hero">
-  <div class="project-hero-left">
-    <div class="project-page-num">P.05</div>
-    <div class="project-page-title">Three Contacts</div>
-    <p class="project-page-desc">
-      A minimalist steel rod bookstand. The project is an exercise in structural economy — where three precisely placed points of contact create elegant stability. Form derived entirely from force, material, and constraint.
-    </p>
+<!-- ══ PAGE GRID ══ -->
+<div class="page-grid">
+
+  <!-- Row 1: Hero (left) + Hero image (right) -->
+  <div class="hero-cell">
+    <div class="hero-cell-top">
+      <div class="project-page-num">P.05</div>
+      <h1 class="project-page-title">Three<br/>Contacts</h1>
+      <p class="project-page-desc">
+        This bookstand explores structural minimalism through a single continuous line. The brief required two book orientations and three points of contact. Rather than treating the contacts as identical, the project reframes them as three structural conditions — a point, a curve, and a line. The form was developed through simultaneous drawing and fabrication, where each bend in the cold-rolled steel rod was carefully measured and adjusted so the radii could physically support the book. Instead of relying on digitally smoothed geometry, the line is constructed through calibrated bends, allowing the drawings and model to evolve together as a record of the making process.
+      </p>
+    </div>
+    <div class="hero-cell-meta">
+      <div class="project-meta-item">
+        <div class="project-meta-label">Type</div>
+        <div class="project-meta-value">Object Design</div>
+      </div>
+      <div class="project-meta-item">
+        <div class="project-meta-label">Material</div>
+        <div class="project-meta-value">Cold-Rolled Steel Rod</div>
+      </div>
+      <div class="project-meta-item">
+        <div class="project-meta-label">Program</div>
+        <div class="project-meta-value">Bookstand</div>
+      </div>
+      <div class="project-meta-item">
+        <div class="project-meta-label">Contacts</div>
+        <div class="project-meta-value">Point · Curve · Line</div>
+      </div>
+    </div>
   </div>
-  <div class="project-hero-right">
-    <div class="project-meta-item">
-      <div class="project-meta-label">Type</div>
-      <div class="project-meta-value">Object Design</div>
+
+  <!-- First image: standalone bookstand, no book -->
+  <div class="img-cell" data-lightbox data-index="0">
+    <img src="images/three-contacts-1.png" alt="Three Contacts bookstand, standalone"/>
+  </div>
+
+  <!-- Row 2: Diagram surround row (spans full width) -->
+  <div class="surround-row">
+
+    <!-- Left diagrams -->
+    <div class="surround-diagrams">
+      <div class="diagram-cell" data-lightbox data-index="2">
+        <img src="images/three-contacts-3.png" alt="Plan and isometric drawings"/>
+      </div>
+      <div class="diagram-cell" data-lightbox data-index="3">
+        <img src="images/three-contacts-4.png" alt="Elevation and unfolded elevation"/>
+      </div>
     </div>
-    <div class="project-meta-item">
-      <div class="project-meta-label">Material</div>
-      <div class="project-meta-value">Steel Rod</div>
+
+    <!-- Center feature image -->
+    <div class="center-img-cell" data-lightbox data-index="1">
+      <img src="images/three-contacts-2.png" alt="Three Contacts holding open book, side profile"/>
     </div>
-    <div class="project-meta-item">
-      <div class="project-meta-label">Concept</div>
-      <div class="project-meta-value">Structural Minimalism</div>
+
+    <!-- Right diagrams -->
+    <div class="surround-diagrams">
+      <div class="diagram-cell" data-lightbox data-index="4">
+        <img src="images/three-contacts-5.png" alt="Bookstand with closed book, angled view"/>
+      </div>
+      <div class="diagram-cell" data-lightbox data-index="5">
+        <img src="images/three-contacts-6.png" alt="Open book resting on stand, overhead float"/>
+      </div>
     </div>
-    <div class="project-meta-item">
-      <div class="project-meta-label">Institution</div>
-      <div class="project-meta-value">Woodbury University</div>
+
+  </div>
+
+  <!-- Row 3: Full-width carousel -->
+  <div class="carousel-section" id="carousel">
+    <div class="carousel-track" id="carousel-track">
+      <div class="carousel-slide" data-lightbox data-index="6">
+        <img src="images/three-contacts-7.png" alt="Close-up: bookstand crown supporting open book"/>
+      </div>
+      <div class="carousel-slide" data-lightbox data-index="7">
+        <img src="images/three-contacts-8.png" alt="Detail: three contact points"/>
+      </div>
+      <div class="carousel-slide" data-lightbox data-index="8">
+        <img src="images/three-contacts-9.png" alt="Process: rod bending documentation"/>
+      </div>
+      <div class="carousel-slide" data-lightbox data-index="9">
+        <img src="images/three-contacts-10.png" alt="Scale study with engineering textbook"/>
+      </div>
+      <div class="carousel-slide" data-lightbox data-index="10">
+        <img src="images/three-contacts-11.png" alt="Final model, angled view"/>
+      </div>
+      <div class="carousel-slide" data-lightbox data-index="11">
+        <img src="images/three-contacts-12.png" alt="Detail: steel rod radius at base"/>
+      </div>
+    </div>
+
+    <button class="carousel-btn carousel-prev" id="carousel-prev">←</button>
+    <button class="carousel-btn carousel-next" id="carousel-next">→</button>
+    <div class="carousel-counter" id="carousel-counter"></div>
+  </div>
+
+  <!-- Filmstrip -->
+  <div class="filmstrip" id="filmstrip">
+    <div class="filmstrip-thumb active" data-slide="0">
+      <span class="thumb-num">01</span>
+      <img src="images/three-contacts-7.png" alt=""/>
+    </div>
+    <div class="filmstrip-thumb" data-slide="1">
+      <span class="thumb-num">02</span>
+      <img src="images/three-contacts-8.png" alt=""/>
+    </div>
+    <div class="filmstrip-thumb" data-slide="2">
+      <span class="thumb-num">03</span>
+      <img src="images/three-contacts-9.png" alt=""/>
+    </div>
+    <div class="filmstrip-thumb" data-slide="3">
+      <span class="thumb-num">04</span>
+      <img src="images/three-contacts-10.png" alt=""/>
+    </div>
+    <div class="filmstrip-thumb" data-slide="4">
+      <span class="thumb-num">05</span>
+      <img src="images/three-contacts-11.png" alt=""/>
+    </div>
+    <div class="filmstrip-thumb" data-slide="5">
+      <span class="thumb-num">06</span>
+      <img src="images/three-contacts-12.png" alt=""/>
     </div>
   </div>
+
+</div><!-- /.page-grid -->
+
+<!-- ══ PROJECT NAV ══ -->
+<div class="project-nav-row">
+  <a href="modular-retreat.html" class="project-nav-item">
+    <div class="project-nav-label">← Previous</div>
+    <div class="project-nav-title">Modular Retreat</div>
+  </a>
+  <a href="emergence.html" class="project-nav-item right">
+    <div class="project-nav-label">Next →</div>
+    <div class="project-nav-title">Emergence</div>
+  </a>
 </div>
 
-<section style="border-bottom: 1px solid var(--border);">
-  <div class="gallery">
-
-    <div class="gallery-row full">
-      <div class="gallery-img wide">
-        <!-- <img src="images/three-contacts-1.jpg" alt="Three Contacts — Overview"/> -->
-        <div class="img-placeholder">
-          <span class="img-icon">⬜</span>
-          <span class="img-label">Image 1</span>
-          <span>images/three-contacts-1.jpg</span>
-        </div>
-      </div>
-    </div>
-    <div class="gallery-caption">Three Contacts — steel rod bookstand</div>
-
-    <div class="gallery-row half">
-      <div class="gallery-img tall">
-        <!-- <img src="images/three-contacts-2.jpg" alt="Three Contacts — Detail"/> -->
-        <div class="img-placeholder">
-          <span class="img-icon">⬜</span>
-          <span class="img-label">Image 2</span>
-          <span>images/three-contacts-2.jpg</span>
-        </div>
-      </div>
-      <div class="gallery-img tall">
-        <!-- <img src="images/three-contacts-3.jpg" alt="Three Contacts — In Use"/> -->
-        <div class="img-placeholder">
-          <span class="img-icon">⬜</span>
-          <span class="img-label">Image 3</span>
-          <span>images/three-contacts-3.jpg</span>
-        </div>
-      </div>
-    </div>
-    <div class="gallery-caption">Joint detail and object in use</div>
-
-    <div class="gallery-row full">
-      <div class="gallery-img wide">
-        <!-- <img src="images/three-contacts-4.jpg" alt="Three Contacts — Studio Shot"/> -->
-        <div class="img-placeholder">
-          <span class="img-icon">⬜</span>
-          <span class="img-label">Image 4</span>
-          <span>images/three-contacts-4.jpg</span>
-        </div>
-      </div>
-    </div>
-    <div class="gallery-caption">Studio shot — finished object</div>
-
-    <div class="gallery-row third">
-      <div class="gallery-img square">
-        <!-- <img src="images/three-contacts-5.jpg" alt="Three Contacts — Drawing"/> -->
-        <div class="img-placeholder">
-          <span class="img-icon">⬜</span>
-          <span class="img-label">Image 5</span>
-          <span>three-contacts-5.jpg</span>
-        </div>
-      </div>
-      <div class="gallery-img square">
-        <!-- <img src="images/three-contacts-6.jpg" alt="Three Contacts — Process"/> -->
-        <div class="img-placeholder">
-          <span class="img-icon">⬜</span>
-          <span class="img-label">Image 6</span>
-          <span>three-contacts-6.jpg</span>
-        </div>
-      </div>
-      <div class="gallery-img square">
-        <!-- <img src="images/three-contacts-7.jpg" alt="Three Contacts — Elevation"/> -->
-        <div class="img-placeholder">
-          <span class="img-icon">⬜</span>
-          <span class="img-label">Image 7</span>
-          <span>three-contacts-7.jpg</span>
-        </div>
-      </div>
-    </div>
-    <div class="gallery-caption">Technical drawing, fabrication process, elevation</div>
-
-  </div>
-</section>
-
-<div class="project-nav">
-  <a href="after-image.html" class="project-nav-item">
-    <span class="project-nav-label">← Previous</span>
-    <span class="project-nav-title">After Image</span>
-  </a>
-  <a href="index.html#projects" class="project-nav-item">
-    <span class="project-nav-label">Back to</span>
-    <span class="project-nav-title">All Projects</span>
-  </a>
-</div>
-
+<!-- ══ FOOTER ══ -->
 <footer>
   <span>© 2026 Ye Yint Aung</span>
-  <span>P.05 — Three Contacts</span>
+  <span>Architecture · Design Computation · Making</span>
 </footer>
+
+<!-- ══ SCRIPTS ══ -->
+<script>
+  (() => {
+    /* ── CAROUSEL ── */
+    const track   = document.getElementById('carousel-track');
+    const slides  = Array.from(track.children);
+    const counter = document.getElementById('carousel-counter');
+    const prevBtn = document.getElementById('carousel-prev');
+    const nextBtn = document.getElementById('carousel-next');
+    const thumbs  = Array.from(document.querySelectorAll('.filmstrip-thumb'));
+
+    let current = 0;
+    const total = slides.length;
+
+    function goTo(index) {
+      current = (index + total) % total;
+      track.style.transform = `translateX(-${current * 100}%)`;
+      thumbs.forEach((t, i) => t.classList.toggle('active', i === current));
+      counter.textContent = `${current + 1} / ${total}`;
+    }
+
+    goTo(0);
+    prevBtn.addEventListener('click', () => goTo(current - 1));
+    nextBtn.addEventListener('click', () => goTo(current + 1));
+    thumbs.forEach((t, i) => t.addEventListener('click', () => goTo(i)));
+
+    // keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (lightboxEl.classList.contains('open')) return;
+      if (e.key === 'ArrowRight') goTo(current + 1);
+      if (e.key === 'ArrowLeft')  goTo(current - 1);
+    });
+
+    // touch swipe
+    let startX = 0;
+    track.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
+    track.addEventListener('touchend', e => {
+      const dx = e.changedTouches[0].clientX - startX;
+      if (Math.abs(dx) > 40) goTo(current + (dx < 0 ? 1 : -1));
+    });
+
+    /* ── LIGHTBOX ── */
+    const lightboxEl = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const lightboxClose = document.getElementById('lightbox-close');
+    const lightboxCounter = document.getElementById('lightbox-counter');
+
+    // collect ALL zoomable images in DOM order
+    const allImages = [];
+    document.querySelectorAll('[data-lightbox] img').forEach(img => allImages.push(img));
+
+    let lbCurrent = 0;
+
+    function openLightbox(index) {
+      lbCurrent = index;
+      lightboxImg.src = allImages[lbCurrent].src;
+      lightboxImg.alt = allImages[lbCurrent].alt;
+      lightboxCounter.textContent = `${lbCurrent + 1} / ${allImages.length}`;
+      lightboxEl.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      lightboxEl.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function navigateLightbox(dir) {
+      lbCurrent = (lbCurrent + dir + allImages.length) % allImages.length;
+      lightboxImg.style.opacity = '0';
+      setTimeout(() => {
+        lightboxImg.src = allImages[lbCurrent].src;
+        lightboxImg.alt = allImages[lbCurrent].alt;
+        lightboxCounter.textContent = `${lbCurrent + 1} / ${allImages.length}`;
+        lightboxImg.style.opacity = '1';
+      }, 150);
+    }
+
+    allImages.forEach((img, i) => {
+      img.closest('[data-lightbox]').addEventListener('click', () => openLightbox(i));
+    });
+
+    lightboxClose.addEventListener('click', e => { e.stopPropagation(); closeLightbox(); });
+
+    lightboxEl.addEventListener('click', e => {
+      if (e.target === lightboxEl) { closeLightbox(); return; }
+      if (e.target === lightboxImg) {
+        navigateLightbox(e.clientX < window.innerWidth / 2 ? -1 : 1);
+      }
+    });
+
+    document.addEventListener('keydown', e => {
+      if (!lightboxEl.classList.contains('open')) return;
+      if (e.key === 'Escape')     closeLightbox();
+      if (e.key === 'ArrowRight') navigateLightbox(1);
+      if (e.key === 'ArrowLeft')  navigateLightbox(-1);
+    });
+
+    lightboxImg.style.transition = 'transform 0.3s ease, opacity 0.15s ease';
+  })();
+</script>
 
 </body>
 </html>
