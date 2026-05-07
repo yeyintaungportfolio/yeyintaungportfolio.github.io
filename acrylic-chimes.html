@@ -116,15 +116,20 @@
       background: var(--surface);
       border: 1px solid var(--border);
       cursor: zoom-in;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     .photo-cell img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
       display: block;
       transition: transform 0.45s ease;
     }
-    .photo-cell:hover img { transform: scale(1.06); }
+    .photo-cell:hover img { transform: scale(1.04); }
 
     /* ── PROJECT NAV ── */
     .project-nav-row {
@@ -194,21 +199,21 @@
       <div class="project-page-num">P.06</div>
       <h1 class="project-page-title">Acrylic<br/>Chimes</h1>
       <p class="project-page-desc">
-        The installation reshapes recycled acrylic into a rhythmic field of chimes that frame fragments of the surroundings, invite tactile interaction, and respond to movement and airflow with subtle sound and shimmer.
+        A site-specific wind installation suspended beneath a pergola, composed of laser-cut acrylic panels hung on a tensioned steel cable system. The panels catch and diffuse sunlight as they move, casting shifting light patterns across the ground and surrounding walls. The project explores ephemerality and environmental responsiveness — the installation is never the same twice, animated entirely by wind and light.
       </p>
     </div>
     <div class="hero-cell-meta">
       <div class="project-meta-item">
         <div class="project-meta-label">Type</div>
-        <div class="project-meta-value">Installation</div>
+        <div class="project-meta-value">Site-Specific Installation</div>
       </div>
       <div class="project-meta-item">
         <div class="project-meta-label">Material</div>
-        <div class="project-meta-value">Acrylic, Monofilament</div>
+        <div class="project-meta-value">Acrylic, Steel Cable</div>
       </div>
       <div class="project-meta-item">
         <div class="project-meta-label">Program</div>
-        <div class="project-meta-value">Public Art</div>
+        <div class="project-meta-value">Outdoor Installation</div>
       </div>
       <div class="project-meta-item">
         <div class="project-meta-label">Date</div>
