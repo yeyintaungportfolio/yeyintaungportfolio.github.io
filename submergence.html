@@ -153,6 +153,12 @@
     }
 
     /* ── Matched-height pair (sub-2 & sub-3, same height diff width) ── */
+    .img-pair {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+    }
     .img-cell--matched {
       aspect-ratio: 3340 / 2273;
     }
@@ -255,12 +261,14 @@
     <img src="images/submergence-1.jpg" alt="Exploded axonometric, Submergence"/>
   </div>
 
-  <!-- Row 2: Morphological studies + Geometric aggregation sketches -->
-  <div class="img-cell img-cell--matched" data-index="1">
-    <img src="images/submergence-2.png" alt="Morphological studies"/>
-  </div>
-  <div class="img-cell img-cell--matched" data-index="2">
-    <img src="images/submergence-3.png" alt="Geometric aggregation sketches"/>
+  <!-- Row 2: Morphological studies + Geometric aggregation sketches — stay side by side on mobile -->
+  <div class="img-pair">
+    <div class="img-cell img-cell--matched" data-index="1">
+      <img src="images/submergence-2.png" alt="Morphological studies"/>
+    </div>
+    <div class="img-cell img-cell--matched" data-index="2">
+      <img src="images/submergence-3.png" alt="Geometric aggregation sketches"/>
+    </div>
   </div>
 
   <!-- Row 3: Site plan — full width -->
