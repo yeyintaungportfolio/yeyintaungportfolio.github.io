@@ -130,24 +130,32 @@
     /* ── PROCESS BREAK ── */
     .process-break {
       grid-column: 1 / -1;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-top: none;
+      padding: 2.5rem 3rem;
       display: flex;
       align-items: center;
-      gap: 1.5rem;
-      padding: 1.5rem 2px;
-      border-top: 1px solid var(--border);
+      justify-content: space-between;
     }
     .process-break-label {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      font-weight: 300;
+      font-style: italic;
+      letter-spacing: 0.02em;
+      color: var(--text);
+    }
+    .process-break-meta {
       font-family: 'DM Mono', monospace;
       font-size: 10px;
-      letter-spacing: 0.25em;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
       color: var(--muted);
-      white-space: nowrap;
     }
-    .process-break-line {
-      flex: 1;
-      height: 1px;
-      background: var(--border);
+
+    .process-grid {
+      grid-template-columns: repeat(6, 1fr);
     }
 
     /* ── PROJECT NAV ── */
@@ -188,6 +196,7 @@
     @media (max-width: 768px) {
       .page-grid { grid-template-columns: 1fr; }
       .photo-grid { grid-template-columns: repeat(2, 1fr); }
+      .process-grid { grid-template-columns: repeat(3, 1fr); }
     }
 
   </style>
@@ -288,11 +297,11 @@
   <!-- Process break -->
   <div class="process-break">
     <span class="process-break-label">Process</span>
-    <span class="process-break-line"></span>
+    <span class="process-break-meta">Documentation</span>
   </div>
 
-  <!-- Process grid — 12 images -->
-  <div class="photo-grid">
+  <!-- Process grid — 12 images, 6 columns -->
+  <div class="photo-grid process-grid">
     <div class="photo-cell" data-lightbox data-index="13">
       <img src="images/clampy-finger-joint-process-01.jpg" alt="Process 01"/>
     </div>
