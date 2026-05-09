@@ -124,6 +124,33 @@
     }
     .photo-cell:hover img { transform: scale(1.04); }
 
+    /* ── PROCESS BREAK ── */
+    .process-break {
+      grid-column: 1 / -1;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-top: none;
+      padding: 2.5rem 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .process-break-label {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      font-weight: 300;
+      font-style: italic;
+      letter-spacing: 0.02em;
+      color: var(--text);
+    }
+    .process-break-meta {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
     /* ── PROJECT NAV ── */
     .project-nav-row {
       position: static !important;
@@ -222,7 +249,7 @@
     </video>
   </div>
 
-  <!-- Photo grid — 16 images -->
+  <!-- Photo grid — 8 installation images -->
   <div class="photo-grid">
     <div class="photo-cell" data-lightbox data-index="0">
       <img src="images/acrylic-chimes-01.jpg" alt="Installation view 01"/>
@@ -248,6 +275,16 @@
     <div class="photo-cell" data-lightbox data-index="7">
       <img src="images/acrylic-chimes-08.jpg" alt="Installation view 08"/>
     </div>
+  </div>
+
+  <!-- Process break -->
+  <div class="process-break">
+    <span class="process-break-label">Process</span>
+    <span class="process-break-meta">Documentation</span>
+  </div>
+
+  <!-- Photo grid — 8 process images -->
+  <div class="photo-grid">
     <div class="photo-cell" data-lightbox data-index="8">
       <img src="images/acrylic-chimes-09.jpg" alt="Process 01"/>
     </div>
