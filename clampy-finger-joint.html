@@ -158,10 +158,10 @@
       grid-template-columns: repeat(6, 1fr);
     }
 
-    .process-grid .photo-cell {
+    .process-grid .photo-cell:nth-child(-n+6) {
       aspect-ratio: 4 / 3;
     }
-    .process-grid .photo-cell img {
+    .process-grid .photo-cell:nth-child(-n+6) img {
       width: 100%;
       height: 100%;
       object-fit: cover;
