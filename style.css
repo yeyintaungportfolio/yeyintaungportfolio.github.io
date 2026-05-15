@@ -22,7 +22,7 @@ body {
   color: var(--text);
   font-family: 'DM Mono', monospace;
   font-weight: 300;
-  font-size: 17px;
+  font-size: 10px;
   line-height: 1.7;
   cursor: crosshair;
 }
