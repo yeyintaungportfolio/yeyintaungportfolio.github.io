@@ -110,7 +110,7 @@ section { border-bottom: 1px solid var(--border); scroll-margin-top: 72px; }
   border-bottom: 1px solid var(--border);
 }
 .section-num {
-  font-size: 13px;
+  font-size: 12px;
   letter-spacing: 0.2em;
   color: var(--accent);
 }
@@ -137,7 +137,7 @@ h2 {
   justify-content: center;
 }
 .hero-tag {
-  font-size: 13px;
+  font-size: 12px;
   letter-spacing: 0.25em;
   text-transform: uppercase;
   color: var(--accent);
@@ -201,7 +201,7 @@ h1 em { font-style: italic; color: var(--accent); }
   gap: 0.6rem;
   color: var(--muted);
   text-decoration: none;
-  font-size: 13px;
+  font-size: 12px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   transition: all 0.3s;
@@ -245,7 +245,7 @@ h1 em { font-style: italic; color: var(--accent); }
   margin-bottom: 0.5rem;
 }
 .stat-label {
-  font-size: 13px;
+  font-size: 12px;
   letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--muted);
@@ -344,7 +344,7 @@ h1 em { font-style: italic; color: var(--accent); }
   justify-content: center;
   gap: 0.5rem;
   color: var(--border);
-  font-size: 10px;
+  font-size: 12px;
   letter-spacing: 0.15em;
   text-transform: uppercase;
 }
@@ -367,7 +367,7 @@ h1 em { font-style: italic; color: var(--accent); }
 .project-card:hover .card-overlay { opacity: 1; }
 
 .overlay-tag {
-  font-size: 13px;
+  font-size: 12px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--accent);
@@ -375,13 +375,13 @@ h1 em { font-style: italic; color: var(--accent); }
 }
 .overlay-desc {
   color: var(--text);
-  font-size: 13px;
+  font-size: 12px;
   line-height: 1.8;
   max-width: 24ch;
 }
 .overlay-cta {
   margin-top: 1.25rem;
-  font-size: 13px;
+  font-size: 12px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--accent);
@@ -406,7 +406,7 @@ h1 em { font-style: italic; color: var(--accent); }
   font-style: italic;
 }
 .card-num {
-  font-size: 13px;
+  font-size: 12px;
   color: var(--accent);
   letter-spacing: 0.15em;
 }
@@ -457,7 +457,7 @@ h1 em { font-style: italic; color: var(--accent); }
 }
 .skill-group:last-child { border-right: none; }
 .skill-group-title {
-  font-size: 13px;
+  font-size: 12px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--accent);
@@ -475,7 +475,7 @@ h1 em { font-style: italic; color: var(--accent); }
   transition: color 0.2s;
 }
 .skill-list li:hover { color: var(--text); }
-.skill-list li::before { content: '—'; color: var(--border); font-size: 13px; }
+.skill-list li::before { content: '—'; color: var(--border); font-size: 12px; }
 
 /* ── CONTACT ── */
 #contact {
@@ -506,7 +506,7 @@ h1 em { font-style: italic; color: var(--accent); }
   transition: all 0.3s;
 }
 .contact-link:hover { border-color: var(--accent); color: var(--accent); background: rgba(200,184,122,0.03); }
-.contact-link span { color: var(--muted); font-size: 13px; }
+.contact-link span { color: var(--muted); font-size: 12px; }
 
 /* ── FOOTER ── */
 footer {
@@ -542,7 +542,7 @@ footer {
   gap: 1.5rem;
 }
 .project-page-num {
-  font-size: 13px;
+  font-size: 12px;
   color: var(--accent);
   letter-spacing: 0.25em;
   margin-bottom: 1rem;
@@ -562,7 +562,7 @@ footer {
   font-size: 13px;
 }
 .project-meta-item { border-top: 1px solid var(--border); padding: 1rem 0; }
-.project-meta-label { font-size: 13px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.3rem; }
+.project-meta-label { font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.3rem; }
 .project-meta-value { font-size: 13px; color: var(--text); }
 
 /* Image gallery on project pages */
@@ -606,7 +606,7 @@ footer {
   justify-content: center;
   gap: 0.75rem;
   color: var(--muted);
-  font-size: 13px;
+  font-size: 12px;
   letter-spacing: 0.15em;
   text-transform: uppercase;
 }
@@ -615,7 +615,7 @@ footer {
 
 .gallery-caption {
   padding: 0.75rem 0;
-  font-size: 13px;
+  font-size: 12px;
   color: var(--muted);
   letter-spacing: 0.05em;
   border-top: 1px solid var(--border);
@@ -632,7 +632,7 @@ footer {
   padding: 2.5rem 3rem;
   text-decoration: none;
   color: var(--muted);
-  font-size: 13px;
+  font-size: 12px;
   letter-spacing: 0.15em;
   text-transform: uppercase;
   transition: all 0.3s;
@@ -643,7 +643,7 @@ footer {
 }
 .project-nav-item:last-child { border-right: none; text-align: right; }
 .project-nav-item:hover { color: var(--accent); background: rgba(200,184,122,0.02); }
-.project-nav-label { font-size: 13px; color: var(--border); margin-bottom: 0.25rem; }
+.project-nav-label { font-size: 12px; color: var(--border); margin-bottom: 0.25rem; }
 .project-nav-title {
   font-family: 'Cormorant Garamond', serif;
   font-size: 1.2rem;
