@@ -22,7 +22,7 @@ body {
   color: var(--text);
   font-family: 'DM Mono', monospace;
   font-weight: 300;
-  font-size: 10px;
+  font-size: 13px;
   line-height: 1.7;
   cursor: crosshair;
 }
@@ -62,7 +62,7 @@ nav {
   color: var(--muted);
   text-decoration: none;
   letter-spacing: 0.12em;
-  font-size: 11px;
+  font-size: 13px;
   text-transform: uppercase;
   transition: color 0.3s;
 }
@@ -73,7 +73,7 @@ nav {
   gap: 0.5rem;
   color: var(--muted);
   text-decoration: none;
-  font-size: 11px;
+  font-size: 13px;
   letter-spacing: 0.15em;
   text-transform: uppercase;
   transition: color 0.3s;
@@ -110,7 +110,7 @@ section { border-bottom: 1px solid var(--border); scroll-margin-top: 72px; }
   border-bottom: 1px solid var(--border);
 }
 .section-num {
-  font-size: 10px;
+  font-size: 13px;
   letter-spacing: 0.2em;
   color: var(--accent);
 }
@@ -137,7 +137,7 @@ h2 {
   justify-content: center;
 }
 .hero-tag {
-  font-size: 10px;
+  font-size: 13px;
   letter-spacing: 0.25em;
   text-transform: uppercase;
   color: var(--accent);
@@ -175,7 +175,7 @@ h1 em { font-style: italic; color: var(--accent); }
   gap: 1rem;
   color: var(--text);
   text-decoration: none;
-  font-size: 11px;
+  font-size: 13px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   border: 1px solid var(--border);
@@ -201,7 +201,7 @@ h1 em { font-style: italic; color: var(--accent); }
   gap: 0.6rem;
   color: var(--muted);
   text-decoration: none;
-  font-size: 10px;
+  font-size: 13px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   transition: all 0.3s;
@@ -214,7 +214,7 @@ h1 em { font-style: italic; color: var(--accent); }
 }
 
 .dl-icon {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--accent);
 }
 
@@ -245,7 +245,7 @@ h1 em { font-style: italic; color: var(--accent); }
   margin-bottom: 0.5rem;
 }
 .stat-label {
-  font-size: 10px;
+  font-size: 13px;
   letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--muted);
@@ -255,7 +255,7 @@ h1 em { font-style: italic; color: var(--accent); }
   align-items: center;
   gap: 0.75rem;
   color: var(--muted);
-  font-size: 11px;
+  font-size: 13px;
   letter-spacing: 0.1em;
 }
 .hero-location::before { content: '◎'; color: var(--accent2); }
@@ -277,12 +277,12 @@ h1 em { font-style: italic; color: var(--accent); }
 }
 .edu-degree {
   color: var(--accent);
-  font-size: 11px;
+  font-size: 13px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   margin-bottom: 0.5rem;
 }
-.edu-year { color: var(--muted); font-size: 11px; margin-bottom: 1.5rem; }
+.edu-year { color: var(--muted); font-size: 13px; margin-bottom: 1.5rem; }
 .award-item {
   display: flex;
   align-items: flex-start;
@@ -297,7 +297,7 @@ h1 em { font-style: italic; color: var(--accent); }
   font-size: 1rem;
   margin-bottom: 0.2rem;
 }
-.award-detail { color: var(--muted); font-size: 11px; }
+.award-detail { color: var(--muted); font-size: 13px; }
 
 /* ── PROJECTS GRID (landing page) ── */
 .projects-grid {
@@ -367,7 +367,7 @@ h1 em { font-style: italic; color: var(--accent); }
 .project-card:hover .card-overlay { opacity: 1; }
 
 .overlay-tag {
-  font-size: 10px;
+  font-size: 13px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--accent);
@@ -375,13 +375,13 @@ h1 em { font-style: italic; color: var(--accent); }
 }
 .overlay-desc {
   color: var(--text);
-  font-size: 11px;
+  font-size: 13px;
   line-height: 1.8;
   max-width: 24ch;
 }
 .overlay-cta {
   margin-top: 1.25rem;
-  font-size: 10px;
+  font-size: 13px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--accent);
@@ -406,7 +406,7 @@ h1 em { font-style: italic; color: var(--accent); }
   font-style: italic;
 }
 .card-num {
-  font-size: 10px;
+  font-size: 13px;
   color: var(--accent);
   letter-spacing: 0.15em;
 }
@@ -423,7 +423,7 @@ h1 em { font-style: italic; color: var(--accent); }
   border-bottom: 1px solid var(--border);
 }
 .exp-item:last-child { border-bottom: none; }
-.exp-date { font-size: 11px; color: var(--muted); letter-spacing: 0.1em; padding-top: 0.25rem; }
+.exp-date { font-size: 13px; color: var(--muted); letter-spacing: 0.1em; padding-top: 0.25rem; }
 .exp-role {
   font-family: 'Cormorant Garamond', serif;
   font-size: 1.2rem;
@@ -431,7 +431,7 @@ h1 em { font-style: italic; color: var(--accent); }
   margin-bottom: 0.25rem;
 }
 .exp-company {
-  font-size: 11px;
+  font-size: 13px;
   letter-spacing: 0.1em;
   color: var(--accent);
   margin-bottom: 1rem;
@@ -440,7 +440,7 @@ h1 em { font-style: italic; color: var(--accent); }
 .exp-bullets { list-style: none; display: flex; flex-direction: column; gap: 0.4rem; }
 .exp-bullets li {
   color: var(--muted);
-  font-size: 12px;
+  font-size: 13px;
   padding-left: 1rem;
   position: relative;
 }
@@ -457,7 +457,7 @@ h1 em { font-style: italic; color: var(--accent); }
 }
 .skill-group:last-child { border-right: none; }
 .skill-group-title {
-  font-size: 10px;
+  font-size: 13px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--accent);
@@ -468,14 +468,14 @@ h1 em { font-style: italic; color: var(--accent); }
 .skill-list { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
 .skill-list li {
   color: var(--muted);
-  font-size: 12px;
+  font-size: 14px;
   display: flex;
   align-items: center;
   gap: 0.75rem;
   transition: color 0.2s;
 }
 .skill-list li:hover { color: var(--text); }
-.skill-list li::before { content: '—'; color: var(--border); font-size: 10px; }
+.skill-list li::before { content: '—'; color: var(--border); font-size: 13px; }
 
 /* ── CONTACT ── */
 #contact {
@@ -492,7 +492,7 @@ h1 em { font-style: italic; color: var(--accent); }
   margin-bottom: 1.5rem;
 }
 .contact-heading em { font-style: italic; color: var(--accent); }
-.contact-sub { color: var(--muted); max-width: 40ch; line-height: 1.9; }
+.contact-sub { color: var(--muted); max-width: 40ch; line-height: 1.9; font-size: 14px; }
 .contact-link {
   display: flex;
   align-items: center;
@@ -501,12 +501,12 @@ h1 em { font-style: italic; color: var(--accent); }
   border: 1px solid var(--border);
   color: var(--text);
   text-decoration: none;
-  font-size: 12px;
+  font-size: 14px;
   letter-spacing: 0.1em;
   transition: all 0.3s;
 }
 .contact-link:hover { border-color: var(--accent); color: var(--accent); background: rgba(200,184,122,0.03); }
-.contact-link span { color: var(--muted); font-size: 10px; }
+.contact-link span { color: var(--muted); font-size: 13px; }
 
 /* ── FOOTER ── */
 footer {
@@ -515,7 +515,7 @@ footer {
   justify-content: space-between;
   align-items: center;
   color: var(--muted);
-  font-size: 10px;
+  font-size: 13px;
   letter-spacing: 0.1em;
 }
 
@@ -542,7 +542,7 @@ footer {
   gap: 1.5rem;
 }
 .project-page-num {
-  font-size: 10px;
+  font-size: 13px;
   color: var(--accent);
   letter-spacing: 0.25em;
   margin-bottom: 1rem;
@@ -559,9 +559,10 @@ footer {
   color: var(--muted);
   line-height: 1.9;
   max-width: 44ch;
+  font-size: 13px;
 }
 .project-meta-item { border-top: 1px solid var(--border); padding: 1rem 0; }
-.project-meta-label { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.3rem; }
+.project-meta-label { font-size: 13px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.3rem; }
 .project-meta-value { font-size: 13px; color: var(--text); }
 
 /* Image gallery on project pages */
@@ -605,7 +606,7 @@ footer {
   justify-content: center;
   gap: 0.75rem;
   color: var(--muted);
-  font-size: 10px;
+  font-size: 13px;
   letter-spacing: 0.15em;
   text-transform: uppercase;
 }
@@ -614,7 +615,7 @@ footer {
 
 .gallery-caption {
   padding: 0.75rem 0;
-  font-size: 11px;
+  font-size: 13px;
   color: var(--muted);
   letter-spacing: 0.05em;
   border-top: 1px solid var(--border);
@@ -631,7 +632,7 @@ footer {
   padding: 2.5rem 3rem;
   text-decoration: none;
   color: var(--muted);
-  font-size: 11px;
+  font-size: 13px;
   letter-spacing: 0.15em;
   text-transform: uppercase;
   transition: all 0.3s;
@@ -642,7 +643,7 @@ footer {
 }
 .project-nav-item:last-child { border-right: none; text-align: right; }
 .project-nav-item:hover { color: var(--accent); background: rgba(200,184,122,0.02); }
-.project-nav-label { font-size: 10px; color: var(--border); margin-bottom: 0.25rem; }
+.project-nav-label { font-size: 13px; color: var(--border); margin-bottom: 0.25rem; }
 .project-nav-title {
   font-family: 'Cormorant Garamond', serif;
   font-size: 1.2rem;
